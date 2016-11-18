@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
-setup(name='people_names',
+setup(name='python_people_names',
       version='0.0.1',
       description='people\'s name parser',
       author='lynzt',
