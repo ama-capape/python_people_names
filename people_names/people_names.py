@@ -8,17 +8,17 @@ def split_name(name_str):
     #     return special_name
 
     name_arr = name_str.split(" ")
-    suffix_name = check_suffix_name(name_arr)
+    suffix_name = _check_suffix_name(name_arr)
     if suffix_name != '':
         name_arr = name_arr[:-1]
         name_arr[-1] = str.rstrip(name_arr[-1], ',')
         # name_arr[-1] = utils.strip_trailing_char(name_arr[-1], ',')
 
-    names = determine_name_if_last_name_has_prefix(name_arr)
+    names = _determine_name_if_last_name_has_prefix(name_arr)
     if not names:
         last_name = name_arr[-1]
-        first_name = determine_first_name(name_arr[:-1])
-        middle_name = determine_middle_name(name_arr[1:-1])
+        first_name = _determine_first_name(name_arr[:-1])
+        middle_name = _determine_middle_name(name_arr[1:-1])
         names = {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
 
     names['suffix_name'] = suffix_name
@@ -30,43 +30,43 @@ def add_name_parts_to_dict(obj, name_parts):
     obj['last_name'] = name_parts['last_name']
     obj['suffix_name'] = name_parts['suffix_name']
 
-def determine_name_if_last_name_has_prefix(name_arr):
+def _determine_name_if_last_name_has_prefix(name_arr):
     names = {}
 
     if len(name_arr) >= 3:
-        names = check_3_or_more_last_name(name_arr)
+        names = _check_3_or_more_last_name(name_arr)
 
     if not names and len(name_arr) >= 2:
-        names = check_2_or_more_last_name(name_arr)
+        names = _check_2_or_more_last_name(name_arr)
 
     return names
 
-def check_3_or_more_last_name(name_arr):
+def _check_3_or_more_last_name(name_arr):
     if name_arr[-3] == 'van' and name_arr[-2] == 'der':
-        first_name = determine_first_name(name_arr[:-3])
-        middle_name = determine_middle_name(name_arr[1:-3])
+        first_name = _determine_first_name(name_arr[:-3])
+        middle_name = _determine_middle_name(name_arr[1:-3])
         last_name = name_arr[-3] + ' ' + name_arr[-2] + ' ' + name_arr[-1]
         return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
     return None
 
-def check_2_or_more_last_name(name_arr):
+def _check_2_or_more_last_name(name_arr):
     if name_arr[-2] == 'van':
         last_name = name_arr[-2] + ' ' + name_arr[-1]
-        first_name = determine_first_name(name_arr[:-2])
-        middle_name = determine_middle_name(name_arr[1:-2])
+        first_name = _determine_first_name(name_arr[:-2])
+        middle_name = _determine_middle_name(name_arr[1:-2])
         return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
     elif name_arr[-2] == 'von':
-        first_name = determine_first_name(name_arr[:-2])
-        middle_name = determine_middle_name(name_arr[1:-2])
+        first_name = _determine_first_name(name_arr[:-2])
+        middle_name = _determine_middle_name(name_arr[1:-2])
         last_name = name_arr[-2] + ' ' + name_arr[-1]
         return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
     return None
 
-def determine_first_name(names):
+def _determine_first_name(names):
     return names[0]
 
 
-def determine_middle_name(names):
+def _determine_middle_name(names):
     if len(names) == 0:
         return ''
     if len(names) == 1:
@@ -74,16 +74,7 @@ def determine_middle_name(names):
     else:
         return names.join(' ')
 
-
-# def special_names_override(name):
-#     if name == 'La June Montgomery Tabron':
-#         return {'first_name': 'La June', 'middle_name': '', 'last_name': 'Montgomery Tabron', 'suffix_name': ''}
-#     elif name == 'Mary Alice Dorrance Malone':
-#         return {'first_name': 'Mary Alice', 'middle_name': 'Dorrance', 'last_name': 'Malone', 'suffix_name': ''}
-#     else:
-#         return None
-
-def check_suffix_name(names):
+def _check_suffix_name(names):
     if names[-1] == 'Jr.':
         return 'Jr.'
     elif names[-1] == 'Sr.':

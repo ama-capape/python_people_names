@@ -1,5 +1,5 @@
 import unittest
-import python_people_names as people_names
+from people_names import people_names
 
 class UtilsTests(unittest.TestCase):
     def test_split_name(self):

@@ -6,5 +6,5 @@ setup(name='python_people_names',
       description='people\'s name parser',
       author='lynzt',
       url='https://github.com/lynzt/python_people_names',
-      packages=['python_people_names'],
+      packages=['people_names'],
      )
