@@ -14,7 +14,6 @@ def split_name(name_str, name_format):
     if name_str == '':
         return {'first_name': '', 'middle_name': '', 'last_name': '', 'suffix_name': '', 'nickname': ''}
 
-    name_str = name_str.title() # convert to upper/lowercase
     if name_format == 'lmf':
         return _process_last_middle_first(name_str)
     elif name_format == 'fml':
@@ -40,7 +39,7 @@ def _process_first_middle_last(name_str):
     return names
 
 def _process_last_middle_first(name_str):
-    # print '_process_last_middle_first: %s' + name_str
+    name_str = name_str.title() # convert to upper/lowercase
     names = {}
     name_arr = name_str.split(", ")
     names['last_name'] = name_arr[0]
@@ -74,7 +73,7 @@ def _determine_name_if_last_name_has_prefix(name_arr):
     return names
 
 def _check_3_or_more_last_name(name_arr):
-    if name_arr[-3] == 'Van' and name_arr[-2] == 'Der':
+    if re.match(r'^van$', name_arr[-3], re.IGNORECASE) and re.match(r'^der$', name_arr[-2], re.IGNORECASE):
         first_name = _get_first_element(name_arr[:-3])
         middle_name = _get_join_elements(name_arr[1:-3])
         last_name = name_arr[-3] + ' ' + name_arr[-2] + ' ' + name_arr[-1]
@@ -82,12 +81,12 @@ def _check_3_or_more_last_name(name_arr):
     return None
 
 def _check_2_or_more_last_name(name_arr):
-    if name_arr[-2] == 'Van':
+    if re.match(r'^van$', name_arr[-2], re.IGNORECASE):
         last_name = name_arr[-2] + ' ' + name_arr[-1]
         first_name = _get_first_element(name_arr[:-2])
         middle_name = _get_join_elements(name_arr[1:-2])
         return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
-    elif name_arr[-2] == 'Von':
+    elif re.match(r'^von$', name_arr[-2], re.IGNORECASE):
         first_name = _get_first_element(name_arr[:-2])
         middle_name = _get_join_elements(name_arr[1:-2])
         last_name = name_arr[-2] + ' ' + name_arr[-1]
@@ -168,4 +167,5 @@ def get_suffix_name(names):
     else:
         suffix_name = ''
 
+    names[-1] = str.rstrip(names[-1], ',') # strip trailing comma if any from last name
     return suffix_name
