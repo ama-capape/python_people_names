@@ -8,10 +8,11 @@ def add_name_parts_to_dict(obj, name_parts):
     obj['middle_name'] = name_parts['middle_name']
     obj['last_name'] = name_parts['last_name']
     obj['suffix_name'] = name_parts['suffix_name']
+    obj['nickname'] = name_parts['nickname']
 
 def split_name(name_str, name_format):
     if name_str == '':
-        return {'first_name': '', 'middle_name': '', 'last_name': '', 'suffix_name': ''}
+        return {'first_name': '', 'middle_name': '', 'last_name': '', 'suffix_name': '', 'nickname': ''}
 
     name_str = name_str.title() # convert to upper/lowercase
     if name_format == 'lmf':
@@ -33,6 +34,7 @@ def _process_first_middle_last(name_str):
         first_name = _get_first_element(name_arr[:-1])
         middle_name = _get_join_elements(name_arr[1:-1])
         names = {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
+    names['nickname'] = ''
     names['suffix_name'] = suffix_name
 
     return names
@@ -43,8 +45,11 @@ def _process_last_middle_first(name_str):
     name_arr = name_str.split(", ")
     names['last_name'] = name_arr[0]
     name_arr = (name_arr[1]).split(" ")
-    name_arr = _check_and_remove_nominal_and_nickname(name_arr)
+    results = _check_and_remove_nominal_and_nickname(name_arr)
+    name_arr = results['arr']
+    names['nickname'] = results['nickname']
     names['suffix_name'] = get_suffix_name(name_arr)
+
 
     names['first_name'] = _get_first_element(name_arr)
     names['middle_name'] = _get_join_elements(name_arr[1:]) # don't pass first element (first_name)
@@ -106,16 +111,18 @@ def _get_join_elements(names):
 def _check_and_remove_nominal_and_nickname(names):
     names_no_post_nominal = []
     for name in names:
-        if not _check_post_nominal(name) and not _check_nickname(name):
+        nickname = _check_nickname(name)
+        if not _check_post_nominal(name) and nickname == '':
             names_no_post_nominal.append(name)
 
-    return names_no_post_nominal
+    return {'arr': names_no_post_nominal, 'nickname': nickname}
 
 
 def _check_nickname(name):
-    nickname = False
-    if re.match(r'^\(.*\)$', name, re.IGNORECASE):
-        nickname = True
+    nickname = ''
+    match = re.search(r'^\((.*)\)$', name, re.IGNORECASE)
+    if match:
+        nickname = match.group(1)
     return nickname
 
 def _check_post_nominal(name):
