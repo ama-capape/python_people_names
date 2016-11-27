@@ -3,19 +3,25 @@ import re
 # fml  ==> first middle last
 # lmf  ==> last middle first
 
+def add_name_parts_to_dict(obj, name_parts):
+    obj['first_name'] = name_parts['first_name']
+    obj['middle_name'] = name_parts['middle_name']
+    obj['last_name'] = name_parts['last_name']
+    obj['suffix_name'] = name_parts['suffix_name']
+
 def split_name(name_str, name_format):
     if name_str == '':
         return {'first_name': '', 'middle_name': '', 'last_name': '', 'suffix_name': ''}
 
     name_str = name_str.title() # convert to upper/lowercase
     if name_format == 'lmf':
-        return process_last_middle_first(name_str)
+        return _process_last_middle_first(name_str)
     elif name_format == 'fml':
-        return process_first_middle_last(name_str)
+        return _process_first_middle_last(name_str)
 
 
-def process_first_middle_last(name_str):
-    # print 'process_first_middle_last: %s' % name_str
+def _process_first_middle_last(name_str):
+    # print '_process_first_middle_last: %s' % name_str
     names = {}
     name_arr = name_str.split(" ")
     suffix_name = get_suffix_name(name_arr)
@@ -31,8 +37,8 @@ def process_first_middle_last(name_str):
 
     return names
 
-def process_last_middle_first(name_str):
-    # print 'process_last_middle_first: %s' + name_str
+def _process_last_middle_first(name_str):
+    # print '_process_last_middle_first: %s' + name_str
     names = {}
     name_arr = name_str.split(", ")
     names['last_name'] = name_arr[0]
@@ -50,12 +56,6 @@ def process_last_middle_first(name_str):
         names['last_name'] = _get_join_elements(name_arr)
 
     return names
-
-def add_name_parts_to_dict(obj, name_parts):
-    obj['first_name'] = name_parts['first_name']
-    obj['middle_name'] = name_parts['middle_name']
-    obj['last_name'] = name_parts['last_name']
-    obj['suffix_name'] = name_parts['suffix_name']
 
 def _determine_name_if_last_name_has_prefix(name_arr):
     names = {}

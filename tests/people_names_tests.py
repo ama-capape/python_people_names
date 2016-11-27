@@ -2,6 +2,17 @@ import unittest
 from people_names import people_names
 
 class UtilsTests(unittest.TestCase):
+    def test_add_name_parts_to_dict(self):
+        obj = {'job': 'auror'}
+        name_parts = {
+            'first_name': 'harry',
+            'middle_name': 'james',
+            'last_name': 'potter',
+            'suffix_name': ''
+        }
+        names = people_names.add_name_parts_to_dict(obj, name_parts)
+        print names
+
     def test_split_name_fml(self):
         names = people_names.split_name('', 'fml')
         self.assertEqual(names['first_name'], '')
