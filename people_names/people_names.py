@@ -102,9 +102,7 @@ def _check_2_or_more_last_name(name_arr):
 def _get_first_element(names):
     if len(names) == 0:
         return ''
-
     return str.rstrip(names[0], '.')
-    # return names[0]
 
 
 def _get_join_elements(names):
@@ -144,6 +142,10 @@ def _check_post_nominal(name):
     elif re.match(r'^MD(.?)$', name, re.IGNORECASE):
         post_nominal = True
     elif re.match(r'^CPA(.?)$', name, re.IGNORECASE):
+        post_nominal = True
+    elif re.match(r'^Gen(.?)$', name, re.IGNORECASE):
+        post_nominal = True
+    elif re.match(r'^Gen(.?)\(Retd\.\)$', name, re.IGNORECASE):
         post_nominal = True
     elif re.match(r'^Mr(.?)$', name, re.IGNORECASE):
         post_nominal = True
