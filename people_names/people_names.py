@@ -132,6 +132,8 @@ def _check_post_nominal(name):
         post_nominal = True
     elif re.match(r'^MD(.?)$', name, re.IGNORECASE):
         post_nominal = True
+    elif re.match(r'^CPA(.?)$', name, re.IGNORECASE):
+        post_nominal = True
     elif re.match(r'^Mr(.?)$', name, re.IGNORECASE):
         post_nominal = True
     elif re.match(r'^MS.(.?)$', name, re.IGNORECASE):

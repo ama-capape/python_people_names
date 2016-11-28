@@ -132,6 +132,13 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['suffix_name'], 'Jr.')
         self.assertEqual(names['nickname'], '')
 
+        names = people_names.split_name('smith, JANE cpa', 'lmf')
+        self.assertEqual(names['first_name'], 'Jane')
+        self.assertEqual(names['middle_name'], '')
+        self.assertEqual(names['last_name'], 'Smith')
+        self.assertEqual(names['suffix_name'], '')
+        self.assertEqual(names['nickname'], '')
+
         names = people_names.split_name('BONIFICIA, ANTHONY A JR', 'lmf')
         self.assertEqual(names['first_name'], 'Anthony')
         self.assertEqual(names['middle_name'], 'A')
