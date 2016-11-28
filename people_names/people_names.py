@@ -24,6 +24,11 @@ def _process_first_middle_last(name_str):
     # print '_process_first_middle_last: %s' % name_str
     names = {}
     name_arr = name_str.split(" ")
+
+    results = _check_and_remove_nominal_and_nickname(name_arr)
+
+    name_arr = results['arr']
+
     suffix_name = get_suffix_name(name_arr)
 
     names = _determine_name_if_last_name_has_prefix(name_arr)
@@ -33,7 +38,8 @@ def _process_first_middle_last(name_str):
         first_name = _get_first_element(name_arr[:-1])
         middle_name = _get_join_elements(name_arr[1:-1])
         names = {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
-    names['nickname'] = ''
+
+    names['nickname'] = results['nickname']
     names['suffix_name'] = suffix_name
 
     return names
@@ -109,13 +115,15 @@ def _get_join_elements(names):
 
 def _check_and_remove_nominal_and_nickname(names):
     names_no_post_nominal = []
+    return_nickname = ''
     for name in names:
         nickname = _check_nickname(name)
+        if nickname != '':
+            return_nickname = nickname
         if not _check_post_nominal(name) and nickname == '':
             names_no_post_nominal.append(name)
 
-    return {'arr': names_no_post_nominal, 'nickname': nickname}
-
+    return {'arr': names_no_post_nominal, 'nickname': return_nickname}
 
 def _check_nickname(name):
     nickname = ''
