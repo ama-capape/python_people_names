@@ -102,14 +102,17 @@ def _check_2_or_more_last_name(name_arr):
 def _get_first_element(names):
     if len(names) == 0:
         return ''
-    return names[0]
+
+    return str.rstrip(names[0], '.')
+    # return names[0]
 
 
 def _get_join_elements(names):
     if len(names) == 0:
         return ''
     if len(names) == 1:
-        return names[0]
+        return str.rstrip(names[0], '.')
+        # return names[0]
     else:
         return ' '.join(names)
 
@@ -158,10 +161,10 @@ def get_suffix_name(names):
     last_element = names[-1]
     if re.match(r'^Jr(.?)$', last_element, re.IGNORECASE):
         del names[-1]
-        suffix_name = 'Jr.'
+        suffix_name = 'Jr'
     elif re.match(r'^Sr(.?)$', last_element, re.IGNORECASE):
         del names[-1]
-        suffix_name = 'Sr.'
+        suffix_name = 'Sr'
     elif re.match(r'^II$', last_element, re.IGNORECASE):
         del names[-1]
         suffix_name = 'II'

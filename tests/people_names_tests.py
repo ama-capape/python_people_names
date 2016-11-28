@@ -56,21 +56,21 @@ class UtilsTests(unittest.TestCase):
 
         names = people_names.split_name('Harry F. Hixson Jr.', 'fml')
         self.assertEqual(names['first_name'], 'Harry')
-        self.assertEqual(names['middle_name'], 'F.')
+        self.assertEqual(names['middle_name'], 'F')
         self.assertEqual(names['last_name'], 'Hixson')
-        self.assertEqual(names['suffix_name'], 'Jr.')
+        self.assertEqual(names['suffix_name'], 'Jr')
         self.assertEqual(names['nickname'], '')
 
         names = people_names.split_name('Marshall S. McCrea, III', 'fml')
         self.assertEqual(names['first_name'], 'Marshall')
-        self.assertEqual(names['middle_name'], 'S.')
+        self.assertEqual(names['middle_name'], 'S')
         self.assertEqual(names['last_name'], 'McCrea')
         self.assertEqual(names['suffix_name'], 'III')
         self.assertEqual(names['nickname'], '')
 
         names = people_names.split_name('James R. (Rick) Perry', 'fml')
         self.assertEqual(names['first_name'], 'James')
-        self.assertEqual(names['middle_name'], 'R.')
+        self.assertEqual(names['middle_name'], 'R')
         self.assertEqual(names['last_name'], 'Perry')
         self.assertEqual(names['suffix_name'], '')
         self.assertEqual(names['nickname'], 'Rick')
@@ -101,7 +101,7 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['first_name'], 'Gifford')
         self.assertEqual(names['middle_name'], 'Wheeler')
         self.assertEqual(names['last_name'], 'Abbott')
-        self.assertEqual(names['suffix_name'], 'Jr.')
+        self.assertEqual(names['suffix_name'], 'Jr')
         self.assertEqual(names['nickname'], '')
 
         names = people_names.split_name('ABRAMS, MARCIA KAREN DR PHD', 'lmf')
@@ -115,7 +115,7 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['first_name'], 'Ralph')
         self.assertEqual(names['middle_name'], 'Lee')
         self.assertEqual(names['last_name'], 'Abraham')
-        self.assertEqual(names['suffix_name'], 'Jr.')
+        self.assertEqual(names['suffix_name'], 'Jr')
         self.assertEqual(names['nickname'], '')
 
         names = people_names.split_name('ALARCON, RICHARD ANTHONY MR.', 'lmf')
@@ -136,7 +136,7 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['first_name'], 'Ray')
         self.assertEqual(names['middle_name'], 'Mills')
         self.assertEqual(names['last_name'], 'Antley')
-        self.assertEqual(names['suffix_name'], 'Jr.')
+        self.assertEqual(names['suffix_name'], 'Jr')
         self.assertEqual(names['nickname'], '')
 
         names = people_names.split_name('smith, JANE cpa', 'lmf')
@@ -150,7 +150,7 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['first_name'], 'Anthony')
         self.assertEqual(names['middle_name'], 'A')
         self.assertEqual(names['last_name'], 'Bonificia')
-        self.assertEqual(names['suffix_name'], 'Jr.')
+        self.assertEqual(names['suffix_name'], 'Jr')
         self.assertEqual(names['nickname'], '')
 
         names = people_names.split_name('VON ADAMS III, PHILIP MONROE', 'lmf')
@@ -165,7 +165,7 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['first_name'], 'Herman')
         self.assertEqual(names['middle_name'], '')
         self.assertEqual(names['last_name'], 'Brass')
-        self.assertEqual(names['suffix_name'], 'Jr.')
+        self.assertEqual(names['suffix_name'], 'Jr')
         self.assertEqual(names['nickname'], 'George')
 
         names = people_names.split_name('PERRY, JAMES R (RICK)', 'lmf')
