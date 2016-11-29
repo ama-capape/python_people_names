@@ -196,6 +196,10 @@ def _check_post_nominal(name):
         post_nominal = 'Dmv'
     elif re.match(r'^the$', name, re.IGNORECASE):
         post_nominal = 'the'
+    elif re.match(r'^Hon(\.?)(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Hon'
+    elif re.match(r'^Amb(\.?)(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Amb'
     return post_nominal
 
 def get_suffix_name(names):
