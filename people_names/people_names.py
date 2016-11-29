@@ -24,10 +24,8 @@ def split_name(name_str, name_format):
 def _process_first_middle_last(name_str):
     names = {}
     name_arr = name_str.split(" ")
-    print name_arr
     results = _check_and_remove_nominal_and_nickname(name_arr)
     name_arr = results['arr']
-    print name_arr
     suffix_name = get_suffix_name(name_arr)
 
     names = _determine_name_if_last_name_has_prefix(name_arr)
@@ -80,6 +78,12 @@ def _determine_name_if_last_name_has_prefix(name_arr):
 
 def _check_3_or_more_last_name(name_arr):
     if re.match(r'^van$', name_arr[-3], re.IGNORECASE) and re.match(r'^der$', name_arr[-2], re.IGNORECASE):
+        first_name = _get_first_element(name_arr[:-3])
+        middle_name = _get_join_elements(name_arr[1:-3])
+        last_name = name_arr[-3] + ' ' + name_arr[-2] + ' ' + name_arr[-1]
+        return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
+
+    if re.match(r'^de$', name_arr[-3], re.IGNORECASE) and re.match(r'^saint$', name_arr[-2], re.IGNORECASE):
         first_name = _get_first_element(name_arr[:-3])
         middle_name = _get_join_elements(name_arr[1:-3])
         last_name = name_arr[-3] + ' ' + name_arr[-2] + ' ' + name_arr[-1]
