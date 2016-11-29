@@ -24,19 +24,22 @@ def split_name(name_str, name_format):
 def _process_first_middle_last(name_str):
     names = {}
     name_arr = name_str.split(" ")
-    print name_arr
+    # print name_arr
     results = _check_and_remove_nominal_and_nickname(name_arr)
     name_arr = results['arr']
-
     suffix_name = get_suffix_name(name_arr)
-    print name_arr
-    names = _determine_name_if_last_name_has_prefix(name_arr)
-
-    if not names:
+    # print name_arr
+    prefix_results = _determine_last_name_prefix(name_arr)
+    if prefix_results:
+        last_name = prefix_results['last_name']
+        name_arr = prefix_results['first_middle'].split(" ")
+        first_name = _get_first_element(name_arr)
+        middle_name = _get_join_elements(name_arr[1:]) # don't pass first element (first_name)
+    else:
         last_name = name_arr[-1]
         first_name = _get_first_element(name_arr[:-1])
         middle_name = _get_join_elements(name_arr[1:-1])
-        names = {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
+    names = {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
 
     names['nickname'] = results['nickname']
     names['nominal_name'] = results['nominal_name']
@@ -67,54 +70,6 @@ def _process_last_middle_first(name_str):
 
     return names
 
-def _determine_name_if_last_name_has_prefix(name_arr):
-    names = {}
-
-    if len(name_arr) >= 3:
-        names = _check_3_or_more_last_name(name_arr)
-
-    if not names and len(name_arr) >= 2:
-        names = _check_2_or_more_last_name(name_arr)
-
-    return names
-
-def _check_3_or_more_last_name(name_arr):
-    if re.match(r'^van$', name_arr[-3], re.IGNORECASE) and re.match(r'^der$', name_arr[-2], re.IGNORECASE):
-        first_name = _get_first_element(name_arr[:-3])
-        middle_name = _get_join_elements(name_arr[1:-3])
-        last_name = name_arr[-3] + ' ' + name_arr[-2] + ' ' + name_arr[-1]
-        return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
-
-    if re.match(r'^de$', name_arr[-3], re.IGNORECASE) and re.match(r'^saint$', name_arr[-2], re.IGNORECASE):
-        first_name = _get_first_element(name_arr[:-3])
-        middle_name = _get_join_elements(name_arr[1:-3])
-        last_name = name_arr[-3] + ' ' + name_arr[-2] + ' ' + name_arr[-1]
-        return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
-    return None
-
-def _check_2_or_more_last_name(name_arr):
-    if re.match(r'^van$', name_arr[-2], re.IGNORECASE):
-        last_name = name_arr[-2] + ' ' + name_arr[-1]
-        first_name = _get_first_element(name_arr[:-2])
-        middle_name = _get_join_elements(name_arr[1:-2])
-        return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
-    elif re.match(r'^von$', name_arr[-2], re.IGNORECASE):
-        first_name = _get_first_element(name_arr[:-2])
-        middle_name = _get_join_elements(name_arr[1:-2])
-        last_name = name_arr[-2] + ' ' + name_arr[-1]
-        return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
-    elif re.match(r'^de$', name_arr[-2], re.IGNORECASE):
-        first_name = _get_first_element(name_arr[:-2])
-        middle_name = _get_join_elements(name_arr[1:-2])
-        last_name = name_arr[-2] + ' ' + name_arr[-1]
-        return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
-    elif re.match(r'^st(\.?)$', name_arr[-2], re.IGNORECASE):
-        first_name = _get_first_element(name_arr[:-2])
-        middle_name = _get_join_elements(name_arr[1:-2])
-        last_name = name_arr[-2] + ' ' + name_arr[-1]
-        return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
-    return None
-
 def _get_first_element(names):
     if len(names) == 0:
         return ''
@@ -130,6 +85,24 @@ def _get_join_elements(names):
     else:
         return ' '.join(names)
 
+def _determine_last_name_prefix(names):
+    full_name = ' '.join(names)
+
+    prefixes = ['del', 'van', 'de', 'st']
+    for prefix in prefixes:
+        results = _check_for_last_name_prefix(full_name, prefix)
+        if results:
+            break;
+    return results
+
+def _check_for_last_name_prefix(name_str, prefix_to_check):
+    prefix_regex = r"(.*?)\b("+re.escape(prefix_to_check)+r"\b.*)"
+    match = re.search(prefix_regex, name_str, re.IGNORECASE)
+    if match:
+        return {'first_middle': match.group(1).strip(), 'last_name': match.group(2).strip()}
+    else:
+        return None
+
 def _check_and_remove_nominal_and_nickname(names):
     names_no_post_nominal = []
     nickname = ''
@@ -144,7 +117,6 @@ def _check_and_remove_nominal_and_nickname(names):
         nominal_name = _determine_set_name(nominal_name, nominal_name_new)
 
     return {'arr': names_no_post_nominal, 'nickname': nickname, 'nominal_name': nominal_name}
-
 
 def _determine_set_name(name, name_new):
     if name == '':
