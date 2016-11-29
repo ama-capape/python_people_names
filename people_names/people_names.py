@@ -41,7 +41,6 @@ def _process_first_middle_last(name_str):
 
     names['nickname'] = results['nickname']
     names['suffix_name'] = suffix_name
-
     return names
 
 def _process_last_middle_first(name_str):
@@ -116,21 +115,39 @@ def _get_join_elements(names):
 
 def _check_and_remove_nominal_and_nickname(names):
     names_no_post_nominal = []
-    return_nickname = ''
+    nickname = ''
     for name in names:
-        nickname = _check_nickname(name)
-        if nickname != '':
-            return_nickname = nickname
-        if not _check_post_nominal(name) and nickname == '':
+        nickname_check = _check_for_nickname(name)
+
+        if not _check_post_nominal(name) and nickname_check == '':
             names_no_post_nominal.append(name)
 
-    return {'arr': names_no_post_nominal, 'nickname': return_nickname}
+        nickname = _set_nickname(nickname, nickname_check)
+
+    return {'arr': names_no_post_nominal, 'nickname': nickname}
+
+
+def _set_nickname(nickname, nickname_check):
+    if nickname == '':
+        return nickname_check
+    else:
+        return nickname
+
+
+def _check_for_nickname(name):
+    nickname = _check_nickname(name)
+
+    # override nicknames if not true nicknames
+    if re.match(r'^retd.$', nickname, re.IGNORECASE):
+        nickname = ''
+    return nickname
 
 def _check_nickname(name):
     nickname = ''
     match = re.search(r'^\((.*)\)$', name, re.IGNORECASE)
     if match:
         nickname = match.group(1)
+
     return nickname
 
 def _check_post_nominal(name):
@@ -148,6 +165,8 @@ def _check_post_nominal(name):
     elif re.match(r'^Gen(.?)$', name, re.IGNORECASE):
         post_nominal = True
     elif re.match(r'^Gen(.?)\(Retd\.\)$', name, re.IGNORECASE):
+        post_nominal = True
+    elif re.match(r'^\(Retd\.\)$', name, re.IGNORECASE):
         post_nominal = True
     elif re.match(r'^Mr(.?)$', name, re.IGNORECASE):
         post_nominal = True
