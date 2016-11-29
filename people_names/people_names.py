@@ -24,10 +24,12 @@ def split_name(name_str, name_format):
 def _process_first_middle_last(name_str):
     names = {}
     name_arr = name_str.split(" ")
+    # print name_arr
     results = _check_and_remove_nominal_and_nickname(name_arr)
     name_arr = results['arr']
-    suffix_name = get_suffix_name(name_arr)
 
+    suffix_name = get_suffix_name(name_arr)
+    # print name_arr
     names = _determine_name_if_last_name_has_prefix(name_arr)
 
     if not names:
@@ -101,6 +103,11 @@ def _check_2_or_more_last_name(name_arr):
         middle_name = _get_join_elements(name_arr[1:-2])
         last_name = name_arr[-2] + ' ' + name_arr[-1]
         return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
+    elif re.match(r'^de$', name_arr[-2], re.IGNORECASE):
+        first_name = _get_first_element(name_arr[:-2])
+        middle_name = _get_join_elements(name_arr[1:-2])
+        last_name = name_arr[-2] + ' ' + name_arr[-1]
+        return {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
     return None
 
 def _get_first_element(names):
@@ -159,29 +166,31 @@ def _check_nickname(name):
 
 def _check_post_nominal(name):
     post_nominal = ''
-    if re.match(r'^Ph(.?)D(.?)$', name, re.IGNORECASE):
+    if re.match(r'^Ph(\.?)D(\.?)$', name, re.IGNORECASE):
         post_nominal = 'PhD'
-    elif re.match(r'^Dr(.?)$', name, re.IGNORECASE):
+    elif re.match(r'^Dr(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Dr'
-    elif re.match(r'^M(.?)D(.?)$', name, re.IGNORECASE):
+    elif re.match(r'^M(\.?)D(\.?)$', name, re.IGNORECASE):
         post_nominal = 'MD'
-    elif re.match(r'^Esq(.?)$', name, re.IGNORECASE):
+    elif re.match(r'^J(\.?)D(\.?)$', name, re.IGNORECASE):
+        post_nominal = 'JD'
+    elif re.match(r'^Esq(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Esq'
-    elif re.match(r'^CPA(.?)$', name, re.IGNORECASE):
+    elif re.match(r'^CPA(\.?)$', name, re.IGNORECASE):
         post_nominal = 'CPA'
-    elif re.match(r'^Gen(.?)$', name, re.IGNORECASE):
+    elif re.match(r'^Gen(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Gen'
     elif re.match(r'^Gen.\s?\(Retd.\)$', name, re.IGNORECASE):
         post_nominal = 'Gen'
     elif re.match(r'^\(Retd\.\)$', name, re.IGNORECASE):
         post_nominal = 'Retd'
-    elif re.match(r'^Sir(.?)$', name, re.IGNORECASE):
+    elif re.match(r'^Sir(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Sir'
-    elif re.match(r'^Mr(.?)$', name, re.IGNORECASE):
+    elif re.match(r'^Mr(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Mr'
-    elif re.match(r'^MS.(.?)$', name, re.IGNORECASE):
+    elif re.match(r'^MS.(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Ms'
-    elif re.match(r'^Rev(.?)$', name, re.IGNORECASE):
+    elif re.match(r'^Rev(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Rev'
     elif re.match(r'^dvm$', name, re.IGNORECASE):
         post_nominal = 'Dmv'
@@ -191,22 +200,22 @@ def _check_post_nominal(name):
 
 def get_suffix_name(names):
     last_element = names[-1]
-    if re.match(r'^Jr(.?)$', last_element, re.IGNORECASE):
+    if re.match(r'^Jr(\.?)$', last_element, re.IGNORECASE):
         del names[-1]
         suffix_name = 'Jr'
-    elif re.match(r'^Sr(.?)$', last_element, re.IGNORECASE):
+    elif re.match(r'^Sr(\.?)$', last_element, re.IGNORECASE):
         del names[-1]
         suffix_name = 'Sr'
-    elif re.match(r'^II$', last_element, re.IGNORECASE):
+    elif re.match(r'^II(\.?)$', last_element, re.IGNORECASE):
         del names[-1]
         suffix_name = 'II'
-    elif re.match(r'^III$', last_element, re.IGNORECASE):
+    elif re.match(r'^III(\.?)$', last_element, re.IGNORECASE):
         del names[-1]
         suffix_name = 'III'
-    elif re.match(r'^IV$', last_element, re.IGNORECASE):
+    elif re.match(r'^IV(\.?)$', last_element, re.IGNORECASE):
         del names[-1]
         suffix_name = 'IV'
-    elif re.match(r'^V$', last_element, re.IGNORECASE):
+    elif re.match(r'^V(\.?)$', last_element, re.IGNORECASE):
         del names[-1]
         suffix_name = 'V'
     else:
