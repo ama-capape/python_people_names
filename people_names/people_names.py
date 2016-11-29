@@ -87,7 +87,7 @@ def _get_join_elements(names):
 
 def _determine_last_name_prefix(names_arr):
     full_name = ' '.join(names_arr)
-    prefixes = ['del', 'van', 'de', 'st', 'da']
+    prefixes = ['del', 'van', 'de', 'st', 'da', 'di', 'la']
     for prefix in prefixes:
         results = _check_for_last_name_prefix(full_name, prefix)
         if results:
@@ -170,6 +170,8 @@ def _check_post_nominal(name):
         post_nominal = 'Sir'
     elif re.match(r'^CFA(\.?)$', name, re.IGNORECASE):
         post_nominal = 'CFA'
+    elif re.match(r'^CBE(\.?)$', name, re.IGNORECASE):
+        post_nominal = 'CBE'
     elif re.match(r'^Rev(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Rev'
     elif re.match(r'^dvm$', name, re.IGNORECASE):
@@ -180,6 +182,8 @@ def _check_post_nominal(name):
         post_nominal = 'Hon'
     elif re.match(r'^Amb(\.?)(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Amb'
+    elif re.match(r'^Gov(\.?)$', name, re.IGNORECASE):
+        post_nominal = 'Gov'
     return post_nominal
 
 def get_suffix_name(names):
