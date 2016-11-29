@@ -166,7 +166,11 @@ def _check_nickname(name):
 
 def _check_post_nominal(name):
     post_nominal = ''
-    if re.match(r'^Ph(\.?)D(\.?)$', name, re.IGNORECASE):
+    if re.match(r'^Mr(\.?)$', name, re.IGNORECASE):
+        post_nominal = 'Mr'
+    elif re.match(r'^MS(\.?)$', name, re.IGNORECASE):
+        post_nominal = 'Ms'
+    elif re.match(r'^Ph(\.?)D(\.?)$', name, re.IGNORECASE):
         post_nominal = 'PhD'
     elif re.match(r'^Dr(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Dr'
@@ -180,16 +184,16 @@ def _check_post_nominal(name):
         post_nominal = 'CPA'
     elif re.match(r'^Gen(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Gen'
-    elif re.match(r'^Gen.\s?\(Retd.\)$', name, re.IGNORECASE):
+    elif re.match(r'^Gen(\.?)\s?\(Retd(\.?)\)(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Gen'
     elif re.match(r'^\(Retd\.\)$', name, re.IGNORECASE):
         post_nominal = 'Retd'
+    elif re.match(r'^Lt(\.?)$', name, re.IGNORECASE):
+        post_nominal = 'Lt'
     elif re.match(r'^Sir(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Sir'
-    elif re.match(r'^Mr(\.?)$', name, re.IGNORECASE):
-        post_nominal = 'Mr'
-    elif re.match(r'^MS.(\.?)$', name, re.IGNORECASE):
-        post_nominal = 'Ms'
+    elif re.match(r'^CFA(\.?)$', name, re.IGNORECASE):
+        post_nominal = 'CFA'
     elif re.match(r'^Rev(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Rev'
     elif re.match(r'^dvm$', name, re.IGNORECASE):
