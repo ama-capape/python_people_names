@@ -8,11 +8,12 @@ def add_name_parts_to_dict(obj, name_parts):
     obj['middle_name'] = name_parts['middle_name']
     obj['last_name'] = name_parts['last_name']
     obj['suffix_name'] = name_parts['suffix_name']
+    obj['nominal_name'] = name_parts['nominal_name']
     obj['nickname'] = name_parts['nickname']
 
 def split_name(name_str, name_format):
     if name_str == '':
-        return {'first_name': '', 'middle_name': '', 'last_name': '', 'suffix_name': '', 'nickname': ''}
+        return {'first_name': '', 'middle_name': '', 'last_name': '', 'suffix_name': '', 'nominal_name': '', 'nickname': ''}
 
     if name_format == 'lmf':
         return _process_last_middle_first(name_str)
@@ -21,12 +22,9 @@ def split_name(name_str, name_format):
 
 
 def _process_first_middle_last(name_str):
-    # print '_process_first_middle_last: %s' % name_str
     names = {}
     name_arr = name_str.split(" ")
-
     results = _check_and_remove_nominal_and_nickname(name_arr)
-
     name_arr = results['arr']
 
     suffix_name = get_suffix_name(name_arr)
@@ -40,6 +38,7 @@ def _process_first_middle_last(name_str):
         names = {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
 
     names['nickname'] = results['nickname']
+    names['nominal_name'] = results['nominal_name']
     names['suffix_name'] = suffix_name
     return names
 
@@ -52,6 +51,7 @@ def _process_last_middle_first(name_str):
     results = _check_and_remove_nominal_and_nickname(name_arr)
     name_arr = results['arr']
     names['nickname'] = results['nickname']
+    names['nominal_name'] = results['nominal_name']
     names['suffix_name'] = get_suffix_name(name_arr)
 
 
@@ -116,22 +116,24 @@ def _get_join_elements(names):
 def _check_and_remove_nominal_and_nickname(names):
     names_no_post_nominal = []
     nickname = ''
+    nominal_name = ''
     for name in names:
-        nickname_check = _check_for_nickname(name)
-
-        if not _check_post_nominal(name) and nickname_check == '':
+        nickname_new = _check_for_nickname(name)
+        nominal_name_new = _check_post_nominal(name)
+        if nominal_name_new == '' and nickname_new == '':
             names_no_post_nominal.append(name)
 
-        nickname = _set_nickname(nickname, nickname_check)
+        nickname = _determine_set_name(nickname, nickname_new)
+        nominal_name = _determine_set_name(nominal_name, nominal_name_new)
 
-    return {'arr': names_no_post_nominal, 'nickname': nickname}
+    return {'arr': names_no_post_nominal, 'nickname': nickname, 'nominal_name': nominal_name}
 
 
-def _set_nickname(nickname, nickname_check):
-    if nickname == '':
-        return nickname_check
+def _determine_set_name(name, name_new):
+    if name == '':
+        return name_new
     else:
-        return nickname
+        return name
 
 
 def _check_for_nickname(name):
@@ -151,33 +153,35 @@ def _check_nickname(name):
     return nickname
 
 def _check_post_nominal(name):
-    post_nominal = False
+    post_nominal = ''
     if re.match(r'^Ph(.?)D(.?)$', name, re.IGNORECASE):
-        post_nominal = True
+        post_nominal = 'PhD'
     elif re.match(r'^Dr(.?)$', name, re.IGNORECASE):
-        post_nominal = True
+        post_nominal = 'Dr'
     elif re.match(r'^MD(.?)$', name, re.IGNORECASE):
-        post_nominal = True
+        post_nominal = 'MD'
     elif re.match(r'^Esq(.?)$', name, re.IGNORECASE):
-        post_nominal = True
+        post_nominal = 'Esq'
     elif re.match(r'^CPA(.?)$', name, re.IGNORECASE):
-        post_nominal = True
+        post_nominal = 'CPA'
     elif re.match(r'^Gen(.?)$', name, re.IGNORECASE):
-        post_nominal = True
-    elif re.match(r'^Gen(.?)\(Retd\.\)$', name, re.IGNORECASE):
-        post_nominal = True
+        post_nominal = 'Gen'
+    elif re.match(r'^Gen.\s?\(Retd.\)$', name, re.IGNORECASE):
+        post_nominal = 'Gen'
     elif re.match(r'^\(Retd\.\)$', name, re.IGNORECASE):
-        post_nominal = True
+        post_nominal = 'Retd'
+    elif re.match(r'^Sir(.?)$', name, re.IGNORECASE):
+        post_nominal = 'Sir'
     elif re.match(r'^Mr(.?)$', name, re.IGNORECASE):
-        post_nominal = True
+        post_nominal = 'Mr'
     elif re.match(r'^MS.(.?)$', name, re.IGNORECASE):
-        post_nominal = True
+        post_nominal = 'Ms'
     elif re.match(r'^Rev(.?)$', name, re.IGNORECASE):
-        post_nominal = True
+        post_nominal = 'Rev'
     elif re.match(r'^dvm$', name, re.IGNORECASE):
-        post_nominal = True
+        post_nominal = 'Dmv'
     elif re.match(r'^the$', name, re.IGNORECASE):
-        post_nominal = True
+        post_nominal = 'the'
     return post_nominal
 
 def get_suffix_name(names):
