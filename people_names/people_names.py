@@ -24,9 +24,10 @@ def split_name(name_str, name_format):
 def _process_first_middle_last(name_str):
     names = {}
     name_arr = name_str.split(" ")
+    print name_arr
     results = _check_and_remove_nominal_and_nickname(name_arr)
     name_arr = results['arr']
-
+    print name_arr
     suffix_name = get_suffix_name(name_arr)
 
     names = _determine_name_if_last_name_has_prefix(name_arr)
@@ -158,7 +159,7 @@ def _check_post_nominal(name):
         post_nominal = 'PhD'
     elif re.match(r'^Dr(.?)$', name, re.IGNORECASE):
         post_nominal = 'Dr'
-    elif re.match(r'^MD(.?)$', name, re.IGNORECASE):
+    elif re.match(r'^M(.?)D(.?)$', name, re.IGNORECASE):
         post_nominal = 'MD'
     elif re.match(r'^Esq(.?)$', name, re.IGNORECASE):
         post_nominal = 'Esq'
