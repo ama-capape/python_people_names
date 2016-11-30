@@ -241,6 +241,10 @@ def _check_post_nominal(name):
         post_nominal = 'Gov'
     elif 'governor' == lowercase_name:
         post_nominal = 'Gov'
+    elif 'sen' == lowercase_name:
+        post_nominal = 'Sen'
+    elif 'senator' == lowercase_name:
+        post_nominal = 'Sen'
 
     return post_nominal
 
