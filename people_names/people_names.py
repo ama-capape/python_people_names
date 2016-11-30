@@ -26,6 +26,7 @@ def split_name(name_str, name_format):
 
 def _process_first_middle_last(name_str):
     name_str = name_str.translate(None, ',')
+    name_str = re.sub('\s+',' ', name_str) # done for things like: john smith , jr <-- extra space before comma
     names = {}
     name_arr = name_str.split(" ")
     # print name_arr
@@ -228,10 +229,16 @@ def _check_post_nominal(name):
         post_nominal = 'Adm'
     elif 'admiral' == lowercase_name:
         post_nominal = 'Adm'
+    elif 'comdr' == lowercase_name:
+        post_nominal = 'Comdr'
+    elif 'commander' == lowercase_name:
+        post_nominal = 'Comdr'
     elif 'usaf' == lowercase_name:
         post_nominal = 'USAF'
     elif 'usmc' == lowercase_name:
         post_nominal = 'USMC'
+    elif 'usn' == lowercase_name:
+        post_nominal = 'USN'
     elif 'us' == lowercase_name:
         post_nominal = 'us'
     elif 'marine' == lowercase_name:
