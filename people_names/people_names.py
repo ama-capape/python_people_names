@@ -191,6 +191,10 @@ def _check_post_nominal(name):
         post_nominal = 'BCom'
     elif 'pgeo' == lowercase_name:
         post_nominal = 'PGeo'
+    elif 'bmech' == lowercase_name:
+        post_nominal = 'BMech'
+    elif 'peng' == lowercase_name:
+        post_nominal = 'PEng'
     elif 'eng' == lowercase_name:
         post_nominal = 'Eng'
     elif 'dr' == lowercase_name:
