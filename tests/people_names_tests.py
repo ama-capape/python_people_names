@@ -526,6 +526,22 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['nominal_name'], 'Mr')
         self.assertEqual(names['nickname'], '')
 
+        names = people_names.split_name('Dr. Jerrold B. Grossman, D.P.S.', 'fml')
+        self.assertEqual(names['first_name'], 'Jerrold')
+        self.assertEqual(names['middle_name'], 'B')
+        self.assertEqual(names['last_name'], 'Grossman')
+        self.assertEqual(names['suffix_name'], '')
+        self.assertEqual(names['nominal_name'], 'Dr')
+        self.assertEqual(names['nickname'], '')
+
+        names = people_names.split_name('Dr. William W. R. Elder, OBE', 'fml')
+        self.assertEqual(names['first_name'], 'William')
+        self.assertEqual(names['middle_name'], 'W R')
+        self.assertEqual(names['last_name'], 'Elder')
+        self.assertEqual(names['suffix_name'], '')
+        self.assertEqual(names['nominal_name'], 'Dr')
+        self.assertEqual(names['nickname'], '')
+
     def test_split_name_lmf(self):
         names = people_names.split_name('', 'lfm')
         self.assertEqual(names['first_name'], '')
