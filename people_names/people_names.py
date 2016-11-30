@@ -29,8 +29,9 @@ def _process_first_middle_last(name_str):
     names = {}
     name_arr = name_str.split(" ")
     # print name_arr
-    results = _check_and_remove_nominal_and_nickname(name_arr)
-    name_arr = results['arr']
+    nominal_results = _check_and_remove_nominal(name_arr)
+    nickname_results = _check_for_nickname_new(nominal_results['arr'])
+    name_arr = nickname_results['arr']
     suffix_name = get_suffix_name(name_arr)
     # print name_arr
     prefix_results = _determine_last_name_prefix(name_arr)
@@ -45,8 +46,8 @@ def _process_first_middle_last(name_str):
         middle_name = _get_join_elements(name_arr[1:-1])
     names = {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
 
-    names['nickname'] = results['nickname']
-    names['nominal_name'] = results['nominal_name']
+    names['nickname'] = nickname_results['nickname']
+    names['nominal_name'] = nominal_results['nominal_name']
     names['suffix_name'] = suffix_name
     return names
 
@@ -56,10 +57,12 @@ def _process_last_middle_first(name_str):
     name_arr = name_str.split(", ")
     names['last_name'] = name_arr[0]
     name_arr = (name_arr[1]).split(" ")
-    results = _check_and_remove_nominal_and_nickname(name_arr)
-    name_arr = results['arr']
-    names['nickname'] = results['nickname']
-    names['nominal_name'] = results['nominal_name']
+    results = _check_and_remove_nominal(name_arr)
+    nominal_results = _check_and_remove_nominal(name_arr)
+    nickname_results = _check_for_nickname_new(nominal_results['arr'])
+    name_arr = nickname_results['arr']
+    names['nickname'] = nickname_results['nickname']
+    names['nominal_name'] = nominal_results['nominal_name']
     names['suffix_name'] = get_suffix_name(name_arr)
 
 
@@ -89,6 +92,24 @@ def _get_join_elements(names):
     else:
         return ' '.join(names)
 
+def _check_for_nickname_new(name):
+    full_name = ' '.join(name)
+    nickname = _check_nickname(full_name)
+    return nickname
+
+def _check_nickname(name):
+    nickname = ''
+    nickname_stripped = name
+    match = re.search(r'(.*?)(\(|\'|\")(.*)(\)|\'|\")(.*)', name, re.IGNORECASE)
+    if match:
+        nickname_stripped = match.group(1) + ' ' + match.group(5)
+        nickname_stripped = re.sub('\s+',' ', nickname_stripped.strip())
+
+        nickname = _check_nickname_override(match.group(3))
+        nickname = nickname.translate(None, '\'')
+        nickname = nickname.translate(None, '\"')
+    return {'nickname': nickname, 'arr': nickname_stripped.split(" ")}
+
 def _determine_last_name_prefix(names_arr):
     full_name = ' '.join(names_arr)
     prefixes = ['del', 'van', 'de', 'st', 'da', 'di', 'la', 'le', 'von']
@@ -106,20 +127,16 @@ def _check_for_last_name_prefix(name_str, prefix_to_check):
     else:
         return None
 
-def _check_and_remove_nominal_and_nickname(names):
+def _check_and_remove_nominal(names):
     names_no_post_nominal = []
-    nickname = ''
     nominal_name = ''
     for name in names:
-        nickname_new = _check_for_nickname(name)
         nominal_name_new = _check_post_nominal(name)
-        if nominal_name_new == '' and nickname_new == '':
+        if nominal_name_new == '':
             names_no_post_nominal.append(name)
-
-        nickname = _determine_set_name('nickname', nickname, nickname_new)
         nominal_name = _determine_set_name('nominal', nominal_name, nominal_name_new)
 
-    return {'arr': names_no_post_nominal, 'nickname': nickname, 'nominal_name': nominal_name}
+    return {'arr': names_no_post_nominal, 'nominal_name': nominal_name}
 
 def _determine_set_name(name_type, name, name_new):
     if name_type == 'nickname':
@@ -136,30 +153,6 @@ def _check_nickname_override(nickname):
         nickname = ''
     elif 'retired' == nickname_lowercase:
         nickname = ''
-    return nickname
-
-def _check_for_nickname(name):
-    nickname = _check_nickname_parenthesis(name)
-    if not nickname:
-        nickname = _check_nickname_quotes(name)
-    return nickname
-
-def _check_nickname_parenthesis(name):
-    nickname = ''
-    name = name.translate(None, '\"')
-    name = name.translate(None, '\'')
-    match = re.search(r'^\((.*)\)$', name, re.IGNORECASE)
-    if match:
-        nickname = match.group(1)
-
-    return nickname
-
-def _check_nickname_quotes(name):
-    nickname = ''
-    match = re.search(r'^(\"|\')(.*)(\"|\')$', name, re.IGNORECASE)
-    if match:
-        nickname = match.group(2)
-
     return nickname
 
 def _check_post_nominal(name):
