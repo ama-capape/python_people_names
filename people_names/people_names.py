@@ -335,6 +335,10 @@ def _check_post_nominal(name):
         post_nominal = 'FACC'
     elif 'fscai' == lowercase_name:
         post_nominal = 'FSCAI'
+    elif 'adv' == lowercase_name:
+        post_nominal = 'Adv'
+    elif 'advocate' == lowercase_name:
+        post_nominal = 'Adv'
 
     return post_nominal
 
