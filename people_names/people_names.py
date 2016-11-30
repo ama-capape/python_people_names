@@ -87,7 +87,7 @@ def _get_join_elements(names):
 
 def _determine_last_name_prefix(names_arr):
     full_name = ' '.join(names_arr)
-    prefixes = ['del', 'van', 'de', 'st', 'da', 'di', 'la']
+    prefixes = ['del', 'van', 'de', 'st', 'da', 'di', 'la', 'le']
     for prefix in prefixes:
         results = _check_for_last_name_prefix(full_name, prefix)
         if results:
@@ -146,6 +146,8 @@ def _check_post_nominal(name):
         post_nominal = 'Mr'
     elif re.match(r'^MS(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Ms'
+    elif re.match(r'^Mrs(\.?)$', name, re.IGNORECASE):
+        post_nominal = 'Mrs'
     elif re.match(r'^Ph(\.?)D(\.?)$', name, re.IGNORECASE):
         post_nominal = 'PhD'
     elif re.match(r'^Dr(\.?)$', name, re.IGNORECASE):
@@ -174,6 +176,8 @@ def _check_post_nominal(name):
         post_nominal = 'CBE'
     elif re.match(r'^Rev(\.?)$', name, re.IGNORECASE):
         post_nominal = 'Rev'
+    elif re.match(r'^Prof(\.?)$', name, re.IGNORECASE):
+        post_nominal = 'Prof'
     elif re.match(r'^dvm$', name, re.IGNORECASE):
         post_nominal = 'Dmv'
     elif re.match(r'^the$', name, re.IGNORECASE):
