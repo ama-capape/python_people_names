@@ -197,6 +197,8 @@ def _check_post_nominal(name):
         post_nominal = 'PEng'
     elif 'eng' == lowercase_name:
         post_nominal = 'Eng'
+    elif 'mbbs' == lowercase_name:
+        post_nominal = 'MBBS'
     elif 'dr' == lowercase_name:
         post_nominal = 'Dr'
     elif 'md' == lowercase_name:
