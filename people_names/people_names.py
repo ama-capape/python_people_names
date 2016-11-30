@@ -146,6 +146,8 @@ def _check_for_nickname(name):
 
 def _check_nickname_parenthesis(name):
     nickname = ''
+    name = name.translate(None, '\"')
+    name = name.translate(None, '\'')
     match = re.search(r'^\((.*)\)$', name, re.IGNORECASE)
     if match:
         nickname = match.group(1)
@@ -171,12 +173,16 @@ def _check_post_nominal(name):
         post_nominal = 'Mrs'
     elif 'phd' == lowercase_name:
         post_nominal = 'PhD'
+    elif 'mba' == lowercase_name:
+        post_nominal = 'MBA'
     elif 'dr' == lowercase_name:
         post_nominal = 'Dr'
     elif 'md' == lowercase_name:
         post_nominal = 'MD'
     elif 'jd' == lowercase_name:
         post_nominal = 'JD'
+    elif 'pharmd' == lowercase_name:
+        post_nominal = 'PharmD'
     elif 'esq' == lowercase_name:
         post_nominal = 'Esq'
     elif 'cpa' == lowercase_name:
