@@ -276,6 +276,10 @@ def _check_post_nominal(name):
         post_nominal = 'FCPA'
     elif 'fca' == lowercase_name:
         post_nominal = 'fca'
+    elif 'mining' == lowercase_name:
+        post_nominal = 'Mining'
+    elif 'engineering' == lowercase_name:
+        post_nominal = 'Engineering'
 
     return post_nominal
 
