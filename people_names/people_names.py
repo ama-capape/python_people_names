@@ -191,6 +191,8 @@ def _check_post_nominal(name):
         post_nominal = 'BCom'
     elif 'pgeo' == lowercase_name:
         post_nominal = 'PGeo'
+    elif 'eng' == lowercase_name:
+        post_nominal = 'Eng'
     elif 'dr' == lowercase_name:
         post_nominal = 'Dr'
     elif 'md' == lowercase_name:
@@ -277,6 +279,8 @@ def _check_post_nominal(name):
         post_nominal = 'Hon'
     elif 'honourable' == lowercase_name:
         post_nominal = 'Hon'
+    elif 'judge' == lowercase_name:
+        post_nominal = 'Judge'
     elif 'amb' == lowercase_name:
         post_nominal = 'Amb'
     elif 'ambassador' == lowercase_name:
