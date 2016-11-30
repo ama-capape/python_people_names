@@ -113,7 +113,7 @@ def _check_nickname(name):
 
 def _determine_last_name_prefix(names_arr):
     full_name = ' '.join(names_arr)
-    prefixes = ['del', 'van', 'de', 'st', 'da', 'di', 'la', 'le', 'von']
+    prefixes = ['del', 'van', 'de', 'st', 'da', 'di', 'la', 'le', 'von', 'della']
     for prefix in prefixes:
         results = _check_for_last_name_prefix(full_name, prefix)
         if results:
