@@ -38,7 +38,6 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['nickname'], '')
 
         names = people_names.split_name('Gen. (Retd.) Peter Pace', 'fml')
-        print names
         self.assertEqual(names['first_name'], 'Peter')
         self.assertEqual(names['middle_name'], '')
         self.assertEqual(names['last_name'], 'Pace')

@@ -15,10 +15,8 @@ def split_name(name_str, name_format):
     if name_str == '':
         return {'first_name': '', 'middle_name': '', 'last_name': '', 'suffix_name': '', 'nominal_name': '', 'nickname': ''}
 
-    print 'split_name: %s' % name_str
     name_str = name_str.strip()
     name_str = name_str.translate(None, '.')
-    print name_str
 
     if name_format == 'lmf':
         return _process_last_middle_first(name_str)
@@ -30,11 +28,11 @@ def _process_first_middle_last(name_str):
     name_str = name_str.translate(None, ',')
     names = {}
     name_arr = name_str.split(" ")
-    print name_arr
+    # print name_arr
     results = _check_and_remove_nominal_and_nickname(name_arr)
     name_arr = results['arr']
     suffix_name = get_suffix_name(name_arr)
-    print name_arr
+    # print name_arr
     prefix_results = _determine_last_name_prefix(name_arr)
     if prefix_results:
         last_name = prefix_results['last_name']
