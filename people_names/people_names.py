@@ -25,7 +25,7 @@ def split_name(name_str, name_format):
 
 
 def _process_first_middle_last(name_str):
-    name_str = name_str.translate(None, ',')
+    name_str = name_str.replace(",", " ")
     name_str = re.sub('\s+',' ', name_str) # done for things like: john smith , jr <-- extra space before comma
     names = {}
     name_arr = name_str.split(" ")
@@ -173,8 +173,20 @@ def _check_post_nominal(name):
         post_nominal = 'MBA'
     elif 'bsc' == lowercase_name:
         post_nominal = 'BSc'
+    elif re.match(r'^bsc\s?\(.*\)$', name, re.IGNORECASE):
+        post_nominal = 'BSc'
+    elif 'bsc' == lowercase_name:
+        post_nominal = 'BSc'
+    elif 'bed' == lowercase_name:
+        post_nominal = 'BEd'
     elif 'msc' == lowercase_name:
         post_nominal = 'MSc'
+    elif re.match(r'^msc\s?\(.*\)$', name, re.IGNORECASE):
+        post_nominal = 'BSc'
+    elif 'ba' == lowercase_name:
+        post_nominal = 'BA'
+    elif 'bs' == lowercase_name:
+        post_nominal = 'BS'
     elif 'bcom' == lowercase_name:
         post_nominal = 'BCom'
     elif 'pgeo' == lowercase_name:
@@ -281,6 +293,8 @@ def _check_post_nominal(name):
         post_nominal = 'MST'
     elif 'llb' == lowercase_name:
         post_nominal = 'LLB'
+    elif 'arct' == lowercase_name:
+        post_nominal = 'ARCT'
     elif 'fcpa' == lowercase_name:
         post_nominal = 'FCPA'
     elif 'fca' == lowercase_name:
