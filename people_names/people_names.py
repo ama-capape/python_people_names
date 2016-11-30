@@ -170,6 +170,10 @@ def _check_post_nominal(name):
         post_nominal = 'Gen'
     elif re.match(r'^General$', name, re.IGNORECASE):
         post_nominal = 'Gen'
+    elif re.match(r'^Con$', name, re.IGNORECASE):
+        post_nominal = 'Con'
+    elif re.match(r'^Colonel$', name, re.IGNORECASE):
+        post_nominal = 'Con'
     elif re.match(r'^Gen\s?\(Retd\)$', name, re.IGNORECASE):
         post_nominal = 'Gen'
     elif re.match(r'^\(Retd\)$', name, re.IGNORECASE):
@@ -180,6 +184,12 @@ def _check_post_nominal(name):
         post_nominal = 'Lt'
     elif re.match(r'^Lieutenant$', name, re.IGNORECASE):
         post_nominal = 'Lt'
+    elif re.match(r'^Adm$', name, re.IGNORECASE):
+        post_nominal = 'Adm'
+    elif re.match(r'^Admiral$', name, re.IGNORECASE):
+        post_nominal = 'Adm'
+    elif re.match(r'^Lieutenant$', name, re.IGNORECASE):
+        post_nominal = 'Lt'
     elif re.match(r'^Sir$', name, re.IGNORECASE):
         post_nominal = 'Sir'
     elif re.match(r'^CFA$', name, re.IGNORECASE):
@@ -188,7 +198,11 @@ def _check_post_nominal(name):
         post_nominal = 'CBE'
     elif re.match(r'^Rev$', name, re.IGNORECASE):
         post_nominal = 'Rev'
+    elif re.match(r'^Reverend$', name, re.IGNORECASE):
+        post_nominal = 'Rev'
     elif re.match(r'^Prof$', name, re.IGNORECASE):
+        post_nominal = 'Prof'
+    elif re.match(r'^Professor$', name, re.IGNORECASE):
         post_nominal = 'Prof'
     elif re.match(r'^dvm$', name, re.IGNORECASE):
         post_nominal = 'Dmv'
@@ -196,7 +210,13 @@ def _check_post_nominal(name):
         post_nominal = 'the'
     elif re.match(r'^Hon(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Hon'
+    elif re.match(r'^Honorable(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Hon'
+    elif re.match(r'^Honourable(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Hon'
     elif re.match(r'^Amb(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Amb'
+    elif re.match(r'^Ambassador(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Amb'
     elif re.match(r'^Gov$', name, re.IGNORECASE):
         post_nominal = 'Gov'
