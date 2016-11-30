@@ -317,6 +317,8 @@ def _check_post_nominal(name):
         post_nominal = 'FCCA'
     elif 'dps' == lowercase_name:
         post_nominal = 'DPS'
+    elif 'mbchb' == lowercase_name:
+        post_nominal = 'MBChB'
 
     return post_nominal
 
