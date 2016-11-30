@@ -153,6 +153,8 @@ def _check_nickname_override(nickname):
         nickname = ''
     elif 'retired' == nickname_lowercase:
         nickname = ''
+    elif 'illinois' == nickname_lowercase:
+        nickname = ''
     return nickname
 
 def _check_post_nominal(name):
@@ -168,6 +170,14 @@ def _check_post_nominal(name):
         post_nominal = 'PhD'
     elif 'mba' == lowercase_name:
         post_nominal = 'MBA'
+    elif 'bsc' == lowercase_name:
+        post_nominal = 'BSc'
+    elif 'msc' == lowercase_name:
+        post_nominal = 'MSc'
+    elif 'bcom' == lowercase_name:
+        post_nominal = 'BCom'
+    elif 'pgeo' == lowercase_name:
+        post_nominal = 'PGeo'
     elif 'dr' == lowercase_name:
         post_nominal = 'Dr'
     elif 'md' == lowercase_name:
@@ -178,6 +188,10 @@ def _check_post_nominal(name):
         post_nominal = 'PharmD'
     elif 'esq' == lowercase_name:
         post_nominal = 'Esq'
+    elif 'qc' == lowercase_name:
+        post_nominal = 'QC'
+    elif 'ca' == lowercase_name:
+        post_nominal = 'CA'
     elif 'cpa' == lowercase_name:
         post_nominal = 'CPA'
     elif 'cva' == lowercase_name:
@@ -212,6 +226,16 @@ def _check_post_nominal(name):
         post_nominal = 'Adm'
     elif 'admiral' == lowercase_name:
         post_nominal = 'Adm'
+    elif 'usaf' == lowercase_name:
+        post_nominal = 'USAF'
+    elif 'usmc' == lowercase_name:
+        post_nominal = 'USMC'
+    elif 'us' == lowercase_name:
+        post_nominal = 'us'
+    elif 'marine' == lowercase_name:
+        post_nominal = 'USMC'
+    elif 'corps' == lowercase_name:
+        post_nominal = 'USMC'
     elif 'sir' == lowercase_name:
         post_nominal = 'Sir'
     elif 'rev' == lowercase_name:
@@ -244,6 +268,14 @@ def _check_post_nominal(name):
         post_nominal = 'Sen'
     elif 'senator' == lowercase_name:
         post_nominal = 'Sen'
+    elif 'mst' == lowercase_name:
+        post_nominal = 'MST'
+    elif 'llb' == lowercase_name:
+        post_nominal = 'LLB'
+    elif 'fcpa' == lowercase_name:
+        post_nominal = 'FCPA'
+    elif 'fca' == lowercase_name:
+        post_nominal = 'fca'
 
     return post_nominal
 
