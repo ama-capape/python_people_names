@@ -247,6 +247,10 @@ def _check_post_nominal(name):
         post_nominal = 'Lt'
     elif 'lieutenant' == lowercase_name:
         post_nominal = 'Lt'
+    elif 'col' == lowercase_name:
+        post_nominal = 'Col'
+    elif 'colonel' == lowercase_name:
+        post_nominal = 'Col'
     elif 'adm' == lowercase_name:
         post_nominal = 'Adm'
     elif 'admiral' == lowercase_name:
@@ -289,6 +293,8 @@ def _check_post_nominal(name):
         post_nominal = 'Hon'
     elif 'judge' == lowercase_name:
         post_nominal = 'Judge'
+    elif 'justice' == lowercase_name:
+        post_nominal = 'Justice'
     elif 'amb' == lowercase_name:
         post_nominal = 'Amb'
     elif 'ambassador' == lowercase_name:
@@ -323,6 +329,10 @@ def _check_post_nominal(name):
         post_nominal = 'MBChB'
     elif 'facp' == lowercase_name:
         post_nominal = 'FACP'
+    elif 'facc' == lowercase_name:
+        post_nominal = 'FACC'
+    elif 'fscai' == lowercase_name:
+        post_nominal = 'FSCAI'
 
     return post_nominal
 
