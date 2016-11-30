@@ -130,7 +130,9 @@ def _determine_set_name(name, name_new):
 
 
 def _check_for_nickname(name):
-    nickname = _check_nickname(name)
+    nickname = _check_nickname_parenthesis(name)
+    if not nickname:
+        nickname = _check_nickname_quotes(name)
     # override nicknames if not true nicknames
     if re.match(r'^retd$', nickname, re.IGNORECASE):
         nickname = ''
@@ -138,11 +140,19 @@ def _check_for_nickname(name):
         nickname = ''
     return nickname
 
-def _check_nickname(name):
+def _check_nickname_parenthesis(name):
     nickname = ''
     match = re.search(r'^\((.*)\)$', name, re.IGNORECASE)
     if match:
         nickname = match.group(1)
+
+    return nickname
+
+def _check_nickname_quotes(name):
+    nickname = ''
+    match = re.search(r'^(\"|\')(.*)(\"|\')$', name, re.IGNORECASE)
+    if match:
+        nickname = match.group(2)
 
     return nickname
 
@@ -154,59 +164,63 @@ def _check_post_nominal(name):
         post_nominal = 'Ms'
     elif re.match(r'^Mrs$', name, re.IGNORECASE):
         post_nominal = 'Mrs'
-    elif re.match(r'^PhD$', name, re.IGNORECASE):
+    elif re.match(r'^PhD(\,?)$', name, re.IGNORECASE):
         post_nominal = 'PhD'
-    elif re.match(r'^Dr$', name, re.IGNORECASE):
+    elif re.match(r'^Dr(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Dr'
-    elif re.match(r'^MD$', name, re.IGNORECASE):
+    elif re.match(r'^MD(\,?)$', name, re.IGNORECASE):
         post_nominal = 'MD'
-    elif re.match(r'^JD$', name, re.IGNORECASE):
+    elif re.match(r'^JD(\,?)$', name, re.IGNORECASE):
         post_nominal = 'JD'
-    elif re.match(r'^Esq$', name, re.IGNORECASE):
+    elif re.match(r'^Esq(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Esq'
-    elif re.match(r'^CPA$', name, re.IGNORECASE):
+    elif re.match(r'^CPA(\,?)$', name, re.IGNORECASE):
         post_nominal = 'CPA'
-    elif re.match(r'^Gen$', name, re.IGNORECASE):
-        post_nominal = 'Gen'
-    elif re.match(r'^General$', name, re.IGNORECASE):
-        post_nominal = 'Gen'
-    elif re.match(r'^Con$', name, re.IGNORECASE):
-        post_nominal = 'Con'
-    elif re.match(r'^Colonel$', name, re.IGNORECASE):
-        post_nominal = 'Con'
-    elif re.match(r'^Gen\s?\(Retd\)$', name, re.IGNORECASE):
-        post_nominal = 'Gen'
-    elif re.match(r'^\(Retd\)$', name, re.IGNORECASE):
-        post_nominal = 'Retd'
-    elif re.match(r'^\(Retired\)$', name, re.IGNORECASE):
-        post_nominal = 'Retd'
-    elif re.match(r'^Lt$', name, re.IGNORECASE):
-        post_nominal = 'Lt'
-    elif re.match(r'^Lieutenant$', name, re.IGNORECASE):
-        post_nominal = 'Lt'
-    elif re.match(r'^Adm$', name, re.IGNORECASE):
-        post_nominal = 'Adm'
-    elif re.match(r'^Admiral$', name, re.IGNORECASE):
-        post_nominal = 'Adm'
-    elif re.match(r'^Lieutenant$', name, re.IGNORECASE):
-        post_nominal = 'Lt'
-    elif re.match(r'^Sir$', name, re.IGNORECASE):
-        post_nominal = 'Sir'
-    elif re.match(r'^CFA$', name, re.IGNORECASE):
+    elif re.match(r'^CVA(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'CVA'
+    elif re.match(r'^CFE(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'CFE'
+    elif re.match(r'^CFA(\,?)$', name, re.IGNORECASE):
         post_nominal = 'CFA'
-    elif re.match(r'^CBE$', name, re.IGNORECASE):
+    elif re.match(r'^CBE(\,?)$', name, re.IGNORECASE):
         post_nominal = 'CBE'
-    elif re.match(r'^Rev$', name, re.IGNORECASE):
+    elif re.match(r'^Gen(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Gen'
+    elif re.match(r'^General(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Gen'
+    elif re.match(r'^Con(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Con'
+    elif re.match(r'^Colonel(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Con'
+    elif re.match(r'^Gen\s?\(Retd\)(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Gen'
+    elif re.match(r'^\(Retd\)(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Retd'
+    elif re.match(r'^\(Retired\)(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Retd'
+    elif re.match(r'^Lt(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Lt'
+    elif re.match(r'^Lieutenant(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Lt'
+    elif re.match(r'^Adm(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Adm'
+    elif re.match(r'^Admiral(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Adm'
+    elif re.match(r'^Lieutenant(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Lt'
+    elif re.match(r'^Sir(\,?)$', name, re.IGNORECASE):
+        post_nominal = 'Sir'
+    elif re.match(r'^Rev(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Rev'
-    elif re.match(r'^Reverend$', name, re.IGNORECASE):
+    elif re.match(r'^Reverend(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Rev'
-    elif re.match(r'^Prof$', name, re.IGNORECASE):
+    elif re.match(r'^Prof(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Prof'
-    elif re.match(r'^Professor$', name, re.IGNORECASE):
+    elif re.match(r'^Professor(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Prof'
-    elif re.match(r'^dvm$', name, re.IGNORECASE):
+    elif re.match(r'^dvm(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Dmv'
-    elif re.match(r'^the$', name, re.IGNORECASE):
+    elif re.match(r'^the(\,?)$', name, re.IGNORECASE):
         post_nominal = 'the'
     elif re.match(r'^Hon(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Hon'
@@ -218,9 +232,9 @@ def _check_post_nominal(name):
         post_nominal = 'Amb'
     elif re.match(r'^Ambassador(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Amb'
-    elif re.match(r'^Gov$', name, re.IGNORECASE):
+    elif re.match(r'^Gov(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Gov'
-    elif re.match(r'^Governor$', name, re.IGNORECASE):
+    elif re.match(r'^Governor(\,?)$', name, re.IGNORECASE):
         post_nominal = 'Gov'
 
     return post_nominal
