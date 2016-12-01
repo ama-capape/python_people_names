@@ -1,7 +1,7 @@
 import re
 # name_format:
 # fml  ==> first middle last
-# lmf  ==> last middle first
+# lfm  ==> last first middle
 
 def add_name_parts_to_dict(obj, name_parts):
     obj['first_name'] = name_parts['first_name']
@@ -18,7 +18,7 @@ def split_name(name_str, name_format):
     name_str = name_str.strip()
 
 
-    if name_format == 'lmf':
+    if name_format == 'lfm':
         return _process_last_middle_first(name_str)
     elif name_format == 'fml':
         return _process_first_middle_last(name_str)
@@ -58,6 +58,7 @@ def _process_first_middle_last(name_str):
 def _process_last_middle_first(name_str):
     name_str = name_str.translate(None, '.')
     name_str = name_str.title() # convert to upper/lowercase
+
     names = {}
     name_arr = name_str.split(", ")
     names['last_name'] = name_arr[0]
