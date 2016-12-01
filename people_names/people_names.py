@@ -16,7 +16,7 @@ def split_name(name_str, name_format):
         return {'first_name': '', 'middle_name': '', 'last_name': '', 'suffix_name': '', 'nominal_name': '', 'nickname': ''}
 
     name_str = name_str.strip()
-    name_str = name_str.translate(None, '.')
+
 
     if name_format == 'lmf':
         return _process_last_middle_first(name_str)
@@ -25,6 +25,9 @@ def split_name(name_str, name_format):
 
 
 def _process_first_middle_last(name_str):
+    name_str = _first_name(name_str)
+    name_str = re.sub(',is$','', name_str)
+    name_str = name_str.translate(None, '.')
     name_str = name_str.replace(",", " ")
     name_str = re.sub('\s+',' ', name_str) # done for things like: john smith , jr <-- extra space before comma
     names = {}
@@ -53,6 +56,7 @@ def _process_first_middle_last(name_str):
     return names
 
 def _process_last_middle_first(name_str):
+    name_str = name_str.translate(None, '.')
     name_str = name_str.title() # convert to upper/lowercase
     names = {}
     name_arr = name_str.split(", ")
@@ -78,6 +82,14 @@ def _process_last_middle_first(name_str):
 
     return names
 
+# fix for things like Mr.John smith
+def _first_name(name_str):
+    name = name_str
+    match = re.search(r'^(Mr|Ms|Dr)\.(\S.*)', name_str, re.IGNORECASE)
+    if match:
+        name = "%s %s" % (match.group(1), match.group(2))
+    return name
+
 def _get_first_element(names):
     if len(names) == 0:
         return ''
@@ -101,7 +113,7 @@ def _check_for_nickname_new(name):
 def _check_nickname(name):
     nickname = ''
     nickname_stripped = name
-    match = re.search(r'(.*?)(\(|\'|\")(.*)(\)|\'|\")(.*)', name, re.IGNORECASE)
+    match = re.search(r'(.*?)(\(|\")(.*)(\)|\")(.*)', name, re.IGNORECASE)
     if match:
         nickname_stripped = match.group(1) + ' ' + match.group(5)
         nickname_stripped = re.sub('\s+',' ', nickname_stripped.strip())
@@ -113,7 +125,7 @@ def _check_nickname(name):
 
 def _determine_last_name_prefix(names_arr):
     full_name = ' '.join(names_arr)
-    prefixes = ['del', 'van', 'de', 'st', 'da', 'di', 'la', 'le', 'von', 'della']
+    prefixes = ['del', 'van', 'de', 'st', 'da', 'di', 'la', 'le', 'von', 'della', 'du']
     for prefix in prefixes:
         results = _check_for_last_name_prefix(full_name, prefix)
         if results:
@@ -156,6 +168,8 @@ def _check_nickname_override(nickname):
         nickname = ''
     elif 'illinois' == nickname_lowercase:
         nickname = ''
+    elif 'uk' == nickname_lowercase:
+        nickname = ''
     return nickname
 
 def _check_post_nominal(name):
@@ -171,28 +185,44 @@ def _check_post_nominal(name):
         post_nominal = 'PhD'
     elif 'mba' == lowercase_name:
         post_nominal = 'MBA'
+    elif 'mbs' == lowercase_name:
+        post_nominal = 'MBS'
     elif 'bsc' == lowercase_name:
         post_nominal = 'BSc'
     elif re.match(r'^bsc\s?\(.*\)$', name, re.IGNORECASE):
         post_nominal = 'BSc'
+    elif 'bcomm' == lowercase_name:
+        post_nominal = 'BComm'
     elif 'bsc' == lowercase_name:
         post_nominal = 'BSc'
     elif 'bed' == lowercase_name:
         post_nominal = 'BEd'
+    elif 'ceng' == lowercase_name:
+        post_nominal = 'CEng'
+    elif 'fiei' == lowercase_name:
+        post_nominal = 'FIEI'
     elif 'msc' == lowercase_name:
         post_nominal = 'MSc'
     elif re.match(r'^msc\s?\(.*\)$', name, re.IGNORECASE):
         post_nominal = 'BSc'
+    elif 'be' == lowercase_name:
+        post_nominal = 'BE'
     elif 'ba' == lowercase_name:
         post_nominal = 'BA'
     elif 'bs' == lowercase_name:
         post_nominal = 'BS'
+    elif 'ma' == lowercase_name:
+        post_nominal = 'MA'
+    elif 'bm' == lowercase_name:
+        post_nominal = 'BM'
     elif 'bcom' == lowercase_name:
         post_nominal = 'BCom'
     elif 'pgeo' == lowercase_name:
         post_nominal = 'PGeo'
     elif 'bmech' == lowercase_name:
         post_nominal = 'BMech'
+    elif 'bch' == lowercase_name:
+        post_nominal = 'BCh'
     elif 'peng' == lowercase_name:
         post_nominal = 'PEng'
     elif 'eng' == lowercase_name:
@@ -245,6 +275,10 @@ def _check_post_nominal(name):
         post_nominal = 'Retd'
     elif 'retired' == lowercase_name:
         post_nominal = 'Retd'
+    elif 'maj' == lowercase_name:
+        post_nominal = 'Maj'
+    elif 'major' == lowercase_name:
+        post_nominal = 'Maj'
     elif 'lt' == lowercase_name:
         post_nominal = 'Lt'
     elif 'lieutenant' == lowercase_name:
@@ -261,6 +295,8 @@ def _check_post_nominal(name):
         post_nominal = 'Comdr'
     elif 'commander' == lowercase_name:
         post_nominal = 'Comdr'
+    elif 'usa' == lowercase_name:
+        post_nominal = 'USA'
     elif 'usaf' == lowercase_name:
         post_nominal = 'USAF'
     elif 'usmc' == lowercase_name:
@@ -317,6 +353,8 @@ def _check_post_nominal(name):
         post_nominal = 'ARCT'
     elif 'fcpa' == lowercase_name:
         post_nominal = 'FCPA'
+    elif 'frcp' == lowercase_name:
+        post_nominal = 'FRCP'
     elif 'fca' == lowercase_name:
         post_nominal = 'fca'
     elif 'mining' == lowercase_name:
@@ -325,6 +363,8 @@ def _check_post_nominal(name):
         post_nominal = 'Engineering'
     elif 'fcca' == lowercase_name:
         post_nominal = 'FCCA'
+    elif 'frcp' == lowercase_name:
+        post_nominal = 'FRCP'
     elif 'dps' == lowercase_name:
         post_nominal = 'DPS'
     elif 'mbchb' == lowercase_name:
@@ -345,6 +385,18 @@ def _check_post_nominal(name):
         post_nominal = 'LLM'
     elif 'shri' == lowercase_name:
         post_nominal = 'Shri'
+    elif 'mph' == lowercase_name:
+        post_nominal = 'MPH'
+    elif 'facs' == lowercase_name:
+        post_nominal = 'FACS'
+    elif 'licoechsg' == lowercase_name:
+        post_nominal = 'LIC.OEC.HSG'
+    elif 'oec' == lowercase_name:
+        post_nominal = 'OEC'
+    elif 'hsg' == lowercase_name:
+        post_nominal = 'HSG'
+    elif 'mrcp' == lowercase_name:
+        post_nominal = 'MRCP'
 
     return post_nominal
 
