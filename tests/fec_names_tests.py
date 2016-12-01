@@ -11,6 +11,9 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['nominal_name'], '')
         self.assertEqual(names['nickname'], '')
 
+        names = people_names.split_name('DNC SERVICES CORP.', 'lfm')
+        self.assertIsNone(names)
+
         names = people_names.split_name('ROZIER, JAMES', 'lfm')
         self.assertEqual(names['first_name'], 'James')
         self.assertEqual(names['middle_name'], '')

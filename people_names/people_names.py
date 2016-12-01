@@ -13,10 +13,15 @@ def add_name_parts_to_dict(obj, name_parts):
 
 def split_name(name_str, name_format):
     if name_str == '':
-        return {'first_name': '', 'middle_name': '', 'last_name': '', 'suffix_name': '', 'nominal_name': '', 'nickname': ''}
+        return {'first_name': '',
+                'middle_name': '',
+                'last_name': '',
+                'suffix_name': '',
+                'nominal_name': '',
+                'nickname': ''
+        }
 
     name_str = name_str.strip()
-
 
     if name_format == 'lfm':
         return _process_last_middle_first(name_str)
@@ -25,12 +30,13 @@ def split_name(name_str, name_format):
 
 
 def _process_first_middle_last(name_str):
+    names = {'original_name': name_str}
     name_str = _first_name(name_str)
     name_str = re.sub(',is$','', name_str)
     name_str = name_str.translate(None, '.')
     name_str = name_str.replace(",", " ")
     name_str = re.sub('\s+',' ', name_str) # done for things like: john smith , jr <-- extra space before comma
-    names = {}
+
     name_arr = name_str.split(" ")
     # print name_arr
     nominal_results = _check_and_remove_nominal(name_arr)
@@ -56,11 +62,26 @@ def _process_first_middle_last(name_str):
     return names
 
 def _process_last_middle_first(name_str):
+
     name_str = name_str.translate(None, '.')
     name_str = name_str.title() # convert to upper/lowercase
 
-    names = {}
     name_arr = name_str.split(", ")
+    if len(name_arr) > 1:
+        names = _get_last_middle_first(name_arr)
+    else:
+        return None
+        # names = {'first_name': '',
+        #         'middle_name': '',
+        #         'last_name': '',
+        #         'suffix_name': '',
+        #         'nominal_name': '',
+        #         'nickname': ''
+        # }
+    return names
+
+def _get_last_middle_first(name_arr):
+    names = {}
     names['last_name'] = name_arr[0]
     name_arr = (name_arr[1]).split(" ")
     results = _check_and_remove_nominal(name_arr)
@@ -70,8 +91,6 @@ def _process_last_middle_first(name_str):
     names['nickname'] = nickname_results['nickname']
     names['nominal_name'] = nominal_results['nominal_name']
     names['suffix_name'] = get_suffix_name(name_arr)
-
-
     names['first_name'] = _get_first_element(name_arr)
     names['middle_name'] = _get_join_elements(name_arr[1:]) # don't pass first element (first_name)
 
