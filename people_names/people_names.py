@@ -42,6 +42,7 @@ def _process_first_middle_last(name_str):
     nominal_results = _check_and_remove_nominal(name_arr)
     nickname_results = _check_for_nickname_new(nominal_results['arr'])
     name_arr = nickname_results['arr']
+    # print name_arr
     suffix_name = get_suffix_name(name_arr)
     # print name_arr
     prefix_results = _determine_last_name_prefix(name_arr)
@@ -446,5 +447,6 @@ def get_suffix_name(names):
     else:
         suffix_name = ''
 
-    names[-1] = str.rstrip(names[-1], ',') # strip trailing comma if any from last name
+    if len(names) != 0:
+        names[-1] = str.rstrip(names[-1], ',') # strip trailing comma if any from last name
     return suffix_name
