@@ -66,18 +66,11 @@ def _process_last_middle_first(name_str):
     name_str = name_str.translate(None, '.')
     name_str = name_str.title() # convert to upper/lowercase
 
-    name_arr = name_str.split(", ")
+    name_arr = name_str.rsplit(", ", 1)
     if len(name_arr) > 1:
         names = _get_last_middle_first(name_arr)
     else:
         return None
-        # names = {'first_name': '',
-        #         'middle_name': '',
-        #         'last_name': '',
-        #         'suffix_name': '',
-        #         'nominal_name': '',
-        #         'nickname': ''
-        # }
     return names
 
 def _get_last_middle_first(name_arr):

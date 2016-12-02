@@ -22,7 +22,13 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['nominal_name'], '')
         self.assertEqual(names['nickname'], '')
 
-
+        names = people_names.split_name('MORRIS, III, WILLIAM N.', 'lfm')
+        self.assertEqual(names['first_name'], 'William')
+        self.assertEqual(names['middle_name'], 'N')
+        self.assertEqual(names['last_name'], 'Morris')
+        self.assertEqual(names['suffix_name'], 'III')
+        self.assertEqual(names['nominal_name'], '')
+        self.assertEqual(names['nickname'], '')
 
 
 
