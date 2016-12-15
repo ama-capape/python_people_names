@@ -34,6 +34,7 @@ def split_name(name_str, name_format):
 
 
 def _process_first_middle_last(name_str):
+    print "name_str: %s" % name_str
     names = {'original_name': name_str}
     name_str = _first_name(name_str)
     name_str = re.sub(',is$','', name_str)
