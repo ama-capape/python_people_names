@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import unittest
 from people_names import people_names
 
@@ -863,14 +865,14 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['nickname'], '')
         self.assertEqual(names['slug_name'], 'josue-robles')
 
-        names = people_names.split_name('How to Contact the Board of Directors', 'fml')
-        self.assertEqual(names['first_name'], 'How')
-        self.assertEqual(names['middle_name'], 'to Contact Board of')
-        self.assertEqual(names['last_name'], 'Directors')
+        names = people_names.split_name('Federico F. Peña', 'fml')
+        self.assertEqual(names['first_name'], 'Federico')
+        self.assertEqual(names['middle_name'], 'F')
+        self.assertEqual(names['last_name'], 'Pena')
         self.assertEqual(names['suffix_name'], '')
-        self.assertEqual(names['nominal_name'], 'the')
+        self.assertEqual(names['nominal_name'], '')
         self.assertEqual(names['nickname'], '')
-        self.assertEqual(names['slug_name'], 'how-to-contact-board-of-directors')
+        self.assertEqual(names['slug_name'], 'federico-f-pena')
 
 
 # python -m unittest discover -s tests -p "*_tests.py"

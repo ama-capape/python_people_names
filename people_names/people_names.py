@@ -1,3 +1,4 @@
+# coding: utf-8
 import re
 from utils import utils
 # name_format:
@@ -25,7 +26,7 @@ def split_name(name_str, name_format):
                 'slug_name': ''
         }
 
-    name_str = str(name_str) # convert from unicode to str (if needed...)
+    name_str = utils.remove_special_chars(name_str)
     name_str = name_str.strip()
 
     if name_format == 'lfm':
@@ -35,14 +36,10 @@ def split_name(name_str, name_format):
 
 
 def _process_first_middle_last(name_str):
-    print "name_str: %s" % name_str
     names = {'original_name': name_str}
     name_str = _first_name(name_str)
-    print "11name_str: %s" % name_str
     name_str = re.sub(',is$','', name_str)
-    print "22name_str: %s" % name_str
     name_str = name_str.translate(None, '.')
-    print "33name_str: %s" % name_str
     name_str = name_str.replace(",", " ")
     name_str = re.sub('\s+',' ', name_str) # done for things like: john smith , jr <-- extra space before comma
 
