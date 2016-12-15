@@ -10,7 +10,8 @@ class UtilsTests(unittest.TestCase):
             'last_name': 'potter',
             'suffix_name': '',
             'nominal_name': 'Sir',
-            'nickname': 'the choosen one'
+            'nickname': 'the choosen one',
+            'slug_name': 'harry-james-potter'
         }
         people_names.add_name_parts_to_dict(obj, name_parts)
         self.assertEqual(obj['first_name'], 'harry')
@@ -19,5 +20,6 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(obj['suffix_name'], '')
         self.assertEqual(obj['nominal_name'], 'Sir')
         self.assertEqual(obj['nickname'], 'the choosen one')
+        self.assertEqual(obj['slug_name'], 'harry-james-potter')
 
 # python -m unittest discover -s tests -p "*_tests.py"

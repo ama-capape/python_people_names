@@ -6,4 +6,7 @@ setup(name='python_people_names',
       author='lynzt',
       url='https://github.com/lynzt/python_people_names',
       packages=['people_names'],
+      dependency_links=[
+        'git+git://github.com/lynzt/python_utils.git',
+        ]
      )

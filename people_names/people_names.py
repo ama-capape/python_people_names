@@ -1,7 +1,9 @@
 import re
+from utils import utils
 # name_format:
 # fml  ==> first middle last
 # lfm  ==> last first middle
+
 
 def add_name_parts_to_dict(obj, name_parts):
     obj['first_name'] = name_parts['first_name']
@@ -10,6 +12,7 @@ def add_name_parts_to_dict(obj, name_parts):
     obj['suffix_name'] = name_parts['suffix_name']
     obj['nominal_name'] = name_parts['nominal_name']
     obj['nickname'] = name_parts['nickname']
+    obj['slug_name'] = name_parts['slug_name']
 
 def split_name(name_str, name_format):
     if name_str == '':
@@ -18,7 +21,8 @@ def split_name(name_str, name_format):
                 'last_name': '',
                 'suffix_name': '',
                 'nominal_name': '',
-                'nickname': ''
+                'nickname': '',
+                'slug_name': ''
         }
 
     name_str = name_str.strip()
@@ -60,6 +64,7 @@ def _process_first_middle_last(name_str):
     names['nickname'] = nickname_results['nickname']
     names['nominal_name'] = nominal_results['nominal_name']
     names['suffix_name'] = suffix_name
+    names['slug_name'] = _slugify_name(names) # don't pass first element (first_name)
     return names
 
 def _process_last_middle_first(name_str):
@@ -88,6 +93,8 @@ def _get_last_middle_first(name_arr):
     names['first_name'] = _get_first_element(name_arr)
     names['middle_name'] = _get_join_elements(name_arr[1:]) # don't pass first element (first_name)
 
+    names['slug_name'] = _slugify_name(names) # don't pass first element (first_name)
+
     ## done if suffix_name in last name vs end of first/middle
     if names['suffix_name'] == '':
         name_arr = (names['last_name']).split(" ")
@@ -95,6 +102,9 @@ def _get_last_middle_first(name_arr):
         names['last_name'] = _get_join_elements(name_arr)
 
     return names
+
+def _slugify_name(name):
+    return utils.slugify_string(name['first_name'] + ' ' + name['middle_name'] + ' ' + name['last_name'])
 
 # fix for things like Mr.John smith
 def _first_name(name_str):
