@@ -26,7 +26,7 @@ def split_name(name_str, name_format):
                 'slug_name': ''
         }
 
-    name_str = utils.remove_special_chars(name_str)
+    name_str = utils.normalize_string(name_str)
     name_str = name_str.strip()
 
     if name_format == 'lfm':
