@@ -37,8 +37,11 @@ def _process_first_middle_last(name_str):
     print "name_str: %s" % name_str
     names = {'original_name': name_str}
     name_str = _first_name(name_str)
+    print "11name_str: %s" % name_str
     name_str = re.sub(',is$','', name_str)
+    print "22name_str: %s" % name_str
     name_str = name_str.translate(None, '.')
+    print "33name_str: %s" % name_str
     name_str = name_str.replace(",", " ")
     name_str = re.sub('\s+',' ', name_str) # done for things like: john smith , jr <-- extra space before comma
 
