@@ -40,6 +40,7 @@ def _process_first_middle_last(name_str):
     name_str = _first_name(name_str)
     name_str = re.sub(',is$','', name_str)
     name_str = name_str.translate(None, '.')
+    name_str = name_str.translate(None, '*')
     name_str = name_str.replace(",", " ")
     name_str = re.sub('\s+',' ', name_str) # done for things like: john smith , jr <-- extra space before comma
 
