@@ -45,13 +45,13 @@ def _process_first_middle_last(name_str):
     name_str = re.sub('\s+',' ', name_str) # done for things like: john smith , jr <-- extra space before comma
 
     name_arr = name_str.split(" ")
-    # print name_arr
+    # print (name_arr)
     nominal_results = _check_and_remove_nominal(name_arr)
     nickname_results = _check_for_nickname_new(nominal_results['arr'])
     name_arr = nickname_results['arr']
-    # print name_arr
+    # print (name_arr)
     suffix_name = get_suffix_name(name_arr)
-    # print name_arr
+    # print (name_arr)
     prefix_results = _determine_last_name_prefix(name_arr)
     if prefix_results:
         last_name = prefix_results['last_name']
