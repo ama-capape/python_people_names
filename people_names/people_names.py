@@ -39,8 +39,8 @@ def _process_first_middle_last(name_str):
     names = {'original_name': name_str}
     name_str = _first_name(name_str)
     name_str = re.sub(',is$','', name_str)
-    name_str = name_str.translate(None, '.')
-    name_str = name_str.translate(None, '*')
+    name_str = name_str.replace(".", "")
+    name_str = name_str.replace("*", "")
     name_str = name_str.replace(",", " ")
     name_str = re.sub('\s+',' ', name_str) # done for things like: john smith , jr <-- extra space before comma
 
@@ -72,7 +72,7 @@ def _process_first_middle_last(name_str):
 
 def _process_last_middle_first(name_str):
 
-    name_str = name_str.translate(None, '.')
+    name_str = name_str.replace(".", "")
     name_str = name_str.title() # convert to upper/lowercase
 
     name_arr = name_str.rsplit(", ", 1)
@@ -146,8 +146,8 @@ def _check_nickname(name):
         nickname_stripped = re.sub('\s+',' ', nickname_stripped.strip())
 
         nickname = _check_nickname_override(match.group(3))
-        nickname = nickname.translate(None, '\'')
-        nickname = nickname.translate(None, '\"')
+        nickname = nickname.replace("\'", "")
+        nickname = nickname.replace("\"", "")
     return {'nickname': nickname, 'arr': nickname_stripped.split(" ")}
 
 def _determine_last_name_prefix(names_arr):
