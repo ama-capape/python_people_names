@@ -14,6 +14,15 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['nickname'], '')
         self.assertEqual(names['slug_name'], 'federico-f-pena')
 
+        names = people_names.split_name('David A. Arledge (Président du conseil)', 'fml')
+        self.assertEqual(names['first_name'], 'David')
+        self.assertEqual(names['middle_name'], 'A')
+        self.assertEqual(names['last_name'], 'Arledge')
+        self.assertEqual(names['suffix_name'], '')
+        self.assertEqual(names['nominal_name'], '')
+        self.assertEqual(names['nickname'], '')
+        self.assertEqual(names['slug_name'], 'david-a-arledge')
+
 
         names = people_names.split_name('Arthur D. Collins, Jr.*', 'fml')
         self.assertEqual(names['first_name'], 'Arthur')

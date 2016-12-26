@@ -197,6 +197,9 @@ def _check_nickname_override(nickname):
         nickname = ''
     elif 'uk' == nickname_lowercase:
         nickname = ''
+    elif 'president du conseil' == nickname_lowercase:
+        nickname = ''
+    
     return nickname
 
 def _check_post_nominal(name):
