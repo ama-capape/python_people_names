@@ -27,6 +27,8 @@ def split_name(name_str, name_format):
         }
 
     name_str = utils.normalize_string(name_str)
+    name_str = _strip_stakeholder_positions(name_str)
+    name_str = _reformat_stakeholder_nominal(name_str)
     name_str = name_str.strip()
 
     if name_format == 'lfm':
@@ -43,6 +45,7 @@ def _process_first_middle_last(name_str):
     name_str = name_str.replace("*", "")
     name_str = name_str.replace(",", " ")
     name_str = re.sub('\s+',' ', name_str) # done for things like: john smith , jr <-- extra space before comma
+    
 
     name_arr = name_str.split(" ")
     # print (name_arr)
@@ -201,6 +204,26 @@ def _check_nickname_override(nickname):
         nickname = ''
     
     return nickname
+
+def _strip_stakeholder_positions(name_str):
+    name_str = name_str.replace("Vice Chairman and Chairman of Goldman Sachs Asia Pacific", "")
+    name_str = name_str.replace("Executive Vice President and Chief Financial Officer", "")
+    name_str = name_str.replace("Executive Vice President, General Counsel and Secretary of the Corporation", "")
+    name_str = name_str.replace("Executive Vice President and Head of Global Compliance", "")
+    name_str = name_str.replace("Executive Vice President, Chief of Staff and Secretary to the Board", "")
+    name_str = name_str.replace("Executive Vice President and Global Head of Human Capital Management", "")
+    name_str = name_str.replace("President and Chief Operating Officer", "")
+    name_str = name_str.replace("Chairman and Chief Executive Officer", "")
+    name_str = name_str.replace("President and COO", "")
+    name_str = name_str.replace("Lead Director", "")
+    name_str = name_str.replace("Vice Chairman", "")
+
+    return name_str.strip()
+
+def _reformat_stakeholder_nominal(name_str):
+    name_str = name_str.replace("P. Eng.", "P.Eng.")
+
+    return name_str.strip()
 
 def _check_post_nominal(name):
     lowercase_name = name.lower()
@@ -427,6 +450,12 @@ def _check_post_nominal(name):
         post_nominal = 'HSG'
     elif 'mrcp' == lowercase_name:
         post_nominal = 'MRCP'
+    elif 'icdd' == lowercase_name:
+        post_nominal = 'ICDD'
+    elif 'chrp' == lowercase_name:
+        post_nominal = 'CHRP'
+    elif 'cma' == lowercase_name:
+        post_nominal = 'CMA'
 
     return post_nominal
 
