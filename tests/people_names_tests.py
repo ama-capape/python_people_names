@@ -22,4 +22,7 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(obj['nickname'], 'the choosen one')
         self.assertEqual(obj['slug_name'], 'harry-james-potter')
 
+    def test_invalid_name_format(self):
+        names = people_names.split_name('potter, harry', 'lmf')
+        self.assertEqual(names['err'], 'invalid name format...')
 # python -m unittest discover -s tests -p "*_tests.py"

@@ -35,6 +35,8 @@ def split_name(name_str, name_format):
         return _process_last_middle_first(name_str)
     elif name_format == 'fml':
         return _process_first_middle_last(name_str)
+    else:
+        return {"err": "invalid name format..."}
 
 
 def _process_first_middle_last(name_str):
@@ -45,7 +47,7 @@ def _process_first_middle_last(name_str):
     name_str = name_str.replace("*", "")
     name_str = name_str.replace(",", " ")
     name_str = re.sub('\s+',' ', name_str) # done for things like: john smith , jr <-- extra space before comma
-    
+
 
     name_arr = name_str.split(" ")
     # print (name_arr)
@@ -74,7 +76,7 @@ def _process_first_middle_last(name_str):
     return names
 
 def _process_last_middle_first(name_str):
-
+    name_str = _strip_remaining_same_chars(name_str, ',')
     name_str = name_str.replace(".", "")
     name_str = name_str.title() # convert to upper/lowercase
 
@@ -140,6 +142,12 @@ def _check_for_nickname_new(name):
     nickname = _check_nickname(full_name)
     return nickname
 
+# remove trailing characters after first occurance (done for Torkelson, Paul, M - remove 2nd comma)
+def _strip_remaining_same_chars(str, char):
+    first_comma_idx = str.find(char)
+    strip_comma_string = str[first_comma_idx+1:].replace(char, "")
+    return str[:first_comma_idx+1] + strip_comma_string
+
 def _check_nickname(name):
     nickname = ''
     nickname_stripped = name
@@ -202,7 +210,7 @@ def _check_nickname_override(nickname):
         nickname = ''
     elif 'president du conseil' == nickname_lowercase:
         nickname = ''
-    
+
     return nickname
 
 def _strip_stakeholder_positions(name_str):
