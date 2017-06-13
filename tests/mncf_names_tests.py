@@ -32,4 +32,13 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(names['nickname'], 'Bob')
         self.assertEqual(names['slug_name'], 'robert-s-zick')
 
+        names = people_names.split_name('Timmerman Michael', 'lfm', True)
+        self.assertEqual(names['first_name'], 'Michael')
+        self.assertEqual(names['middle_name'], '')
+        self.assertEqual(names['last_name'], 'Timmerman')
+        self.assertEqual(names['suffix_name'], '')
+        self.assertEqual(names['nominal_name'], '')
+        self.assertEqual(names['nickname'], '')
+        self.assertEqual(names['slug_name'], 'michael-timmerman')
+
 # python -m unittest discover -s tests -p "*_tests.py"

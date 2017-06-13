@@ -15,7 +15,7 @@ def add_name_parts_to_dict(obj, name_parts):
     obj['nickname'] = name_parts['nickname']
     obj['slug_name'] = name_parts['slug_name']
 
-def split_name(name_str, name_format):
+def split_name(name_str, name_format, force_split=False): # force_split - add comma if none and return result for (l, f m)
     if name_str == '':
         return {'first_name': '',
                 'middle_name': '',
@@ -32,7 +32,7 @@ def split_name(name_str, name_format):
     name_str = name_str.strip()
 
     if name_format == 'lfm':
-        return _process_last_middle_first(name_str)
+        return _process_last_middle_first(name_str, force_split)
     elif name_format == 'fml':
         return _process_first_middle_last(name_str)
     else:
@@ -75,10 +75,14 @@ def _process_first_middle_last(name_str):
     names['slug_name'] = _slugify_name(names) # don't pass first element (first_name)
     return names
 
-def _process_last_middle_first(name_str):
+def _process_last_middle_first(name_str, force_split):
+    if force_split:
+        name_str = _check_for_comma(name_str) # check that there's a comma after last name
     name_str = _strip_remaining_same_chars(name_str, ',')
     name_str = name_str.replace(".", "")
     name_str = name_str.title() # convert to upper/lowercase
+
+
 
     name_arr = name_str.rsplit(", ", 1)
     if len(name_arr) > 1:
@@ -86,6 +90,13 @@ def _process_last_middle_first(name_str):
     else:
         return None
     return names
+
+def _check_for_comma(str):
+    str_split = str.split()
+    if str_split[0].endswith(','):
+        return str
+    else:
+        return ', '.join(str_split)
 
 def _get_last_middle_first(name_arr):
     names = {}
