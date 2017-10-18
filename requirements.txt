@@ -1,0 +1,2 @@
+git+git://github.com/lynzt/python_utils.git
+beautifulsoup4==4.6.0
