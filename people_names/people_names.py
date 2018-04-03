@@ -1,10 +1,18 @@
 # coding: utf-8
 import re
-from utils import utils
+import unidecode
+from slugify import Slugify
 # name_format:
 # fml  ==> first middle last
 # lfm  ==> last first middle
 
+def normalize_string(u_str):
+    return unidecode.unidecode(u_str)
+
+def slugify_string(str):
+    my_slugify = Slugify()
+    my_slugify.to_lower=True
+    return my_slugify(str)
 
 def add_name_parts_to_dict(obj, name_parts):
     obj['first_name'] = name_parts['first_name']
@@ -26,7 +34,7 @@ def split_name(name_str, name_format, force_split=False): # force_split - add co
                 'slug_name': ''
         }
 
-    name_str = utils.normalize_string(name_str)
+    name_str = normalize_string(name_str)
     name_str = _strip_stakeholder_positions(name_str)
     name_str = _reformat_stakeholder_nominal(name_str)
     name_str = name_str.strip()
@@ -123,7 +131,7 @@ def _get_last_middle_first(name_arr):
     return names
 
 def _slugify_name(name):
-    return utils.slugify_string(name['first_name'] + ' ' + name['middle_name'] + ' ' + name['last_name'])
+    return slugify_string(name['first_name'] + ' ' + name['middle_name'] + ' ' + name['last_name'])
 
 # fix for things like Mr.John smith
 def _first_name(name_str):
