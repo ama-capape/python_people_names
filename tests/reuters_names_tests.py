@@ -865,5 +865,41 @@ class ReutersTests(unittest.TestCase):
         self.assertEqual(names['nickname'], '')
         self.assertEqual(names['slug_name'], 'josue-robles')
 
+        names = people_names.split_name('Ms. Kathy J. Higgins Victor', 'fml')
+        self.assertEqual(names['first_name'], 'Kathy')
+        self.assertEqual(names['middle_name'], 'J')
+        self.assertEqual(names['last_name'], 'Higgins Victor')
+        self.assertEqual(names['suffix_name'], '')
+        self.assertEqual(names['nominal_name'], 'Ms')
+        self.assertEqual(names['nickname'], '')
+        self.assertEqual(names['slug_name'], 'kathy-j-higgins-victor')
+
+        names = people_names.split_name('Ms. Fabiola R. Arredondo de Vara', 'fml')
+        self.assertEqual(names['first_name'], 'Fabiola')
+        self.assertEqual(names['middle_name'], 'R')
+        self.assertEqual(names['last_name'], 'Arredondo de Vara')
+        self.assertEqual(names['suffix_name'], '')
+        self.assertEqual(names['nominal_name'], 'Ms')
+        self.assertEqual(names['nickname'], '')
+        self.assertEqual(names['slug_name'], 'fabiola-r-arredondo-de-vara')
+
+        names = people_names.split_name('Mr. Manuel J. Perez De La Mesa', 'fml')
+        self.assertEqual(names['first_name'], 'Manuel')
+        self.assertEqual(names['middle_name'], 'J')
+        self.assertEqual(names['last_name'], 'Perez De La Mesa')
+        self.assertEqual(names['suffix_name'], '')
+        self.assertEqual(names['nominal_name'], 'Mr')
+        self.assertEqual(names['nickname'], '')
+        self.assertEqual(names['slug_name'], 'manuel-j-perez-de-la-mesa')
+
+        names = people_names.split_name('Ms. Mary Alice Dorrance Malone', 'fml')
+        self.assertEqual(names['first_name'], 'Mary')
+        self.assertEqual(names['middle_name'], 'Alice')
+        self.assertEqual(names['last_name'], 'Dorrance Malone')
+        self.assertEqual(names['suffix_name'], '')
+        self.assertEqual(names['nominal_name'], 'Ms')
+        self.assertEqual(names['nickname'], '')
+        self.assertEqual(names['slug_name'], 'mary-alice-dorrance-malone')
+
 
 # python -m unittest discover -s tests -p "*_tests.py"

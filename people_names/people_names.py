@@ -75,6 +75,9 @@ def _process_first_middle_last(name_str):
         last_name = name_arr[-1]
         first_name = _get_first_element(name_arr[:-1])
         middle_name = _get_join_elements(name_arr[1:-1])
+
+    middle_name, last_name = _check_middle_last_name(middle_name, last_name)
+
     names = {'first_name': first_name, 'middle_name': middle_name, 'last_name': last_name}
 
     names['nickname'] = nickname_results['nickname']
@@ -173,6 +176,24 @@ def _strip_remaining_same_chars(str, char):
 # check if name like last_name,first_name (no space after comma)
 def _ensure_space_after_comma(str):
     return re.sub(',(?=\S)', ', ', str)
+
+
+# TODO: this is the worst... fix this sometime...
+def _check_middle_last_name(middle_name, last_name):
+    middle_name_arr = middle_name.split(" ")
+    if len(middle_name_arr) > 1:
+        middle = middle_name_arr[0]
+        last = last_name
+        for idx, m_name in enumerate(middle_name_arr[1:]):
+            if len(m_name) == 1:
+                middle = '{} {}'.format(middle, m_name)
+            else:
+                last = '{} {}'.format(m_name, last)
+
+        middle_name = re.sub('\s+', ' ', middle.strip())
+        last_name = re.sub('\s+', ' ', last.strip())
+
+    return [middle_name, last_name]
 
 def _check_nickname(name):
     nickname = ''
