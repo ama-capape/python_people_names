@@ -7,4 +7,4 @@ RUN pip3 install -r requirements.txt
 
 COPY . /usr/src/app
 
-CMD [ "python3", "-m unittest discover -p \"*_tests.py\"" ]
+CMD [ "python3", "-m unittest discover -s tests -p \"*_tests.py\"" ]

@@ -16,3 +16,7 @@ people_names is a module that takes a string name and returns a name dict (first
       nickname: str,
       slug_name: str,
     }
+
+# unittest
+* docker run -it -v ${PWD}:/usr/src/app --rm py/people-names python3 -m unittest discover -s tests -p "*_tests.py"
+* docker run -it -v ${PWD}:/usr/src/app --rm py/people-names python3 -m unittest tests/fec_names_tests.py

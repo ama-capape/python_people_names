@@ -87,6 +87,9 @@ def _process_last_middle_first(name_str, force_split):
     if force_split:
         name_str = _check_for_comma(name_str) # check that there's a comma after last name
     name_str = _strip_remaining_same_chars(name_str, ',')
+    name_str = _ensure_space_after_comma(name_str)
+
+
     name_str = name_str.replace(".", "")
     name_str = name_str.title() # convert to upper/lowercase
 
@@ -166,6 +169,10 @@ def _strip_remaining_same_chars(str, char):
     first_comma_idx = str.find(char)
     strip_comma_string = str[first_comma_idx+1:].replace(char, "")
     return str[:first_comma_idx+1] + strip_comma_string
+
+# check if name like last_name,first_name (no space after comma)
+def _ensure_space_after_comma(str):
+    return re.sub(',(?=\S)', ', ', str)
 
 def _check_nickname(name):
     nickname = ''
