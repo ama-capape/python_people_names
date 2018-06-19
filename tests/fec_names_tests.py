@@ -1,7 +1,7 @@
 import unittest
 from people_names import people_names
 
-class UtilsTests(unittest.TestCase):
+class FecTests(unittest.TestCase):
     def test_split_name_lfm(self):
         names = people_names.split_name('', 'lfm')
         self.assertEqual(names['first_name'], '')

@@ -1,7 +1,7 @@
 import unittest
 from people_names import people_names
 
-class UtilsTests(unittest.TestCase):
+class PeopleTests(unittest.TestCase):
     def test_add_name_parts_to_dict(self):
         obj = {'job': 'auror'}
         name_parts = {

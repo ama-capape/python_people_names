@@ -3,7 +3,7 @@
 import unittest
 from people_names import people_names
 
-class UtilsTests(unittest.TestCase):
+class OrgTests(unittest.TestCase):
     def test_split_name_fml(self):
         names = people_names.split_name('Federico F. Peña', 'fml')
         self.assertEqual(names['first_name'], 'Federico')
