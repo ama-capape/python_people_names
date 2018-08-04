@@ -7,7 +7,7 @@ setup(name='python_people_names',
     url='https://github.com/lynzt/python_people_names',
     packages=['people_names'],
     install_requires=[
-        unidecode,
-        awesome-slugify
+        'unidecode',
+        'awesome-slugify'
     ]
 )
