@@ -5,6 +5,7 @@ from functools import reduce
 from slugify import Slugify
 from people_names import stakeholder_positions
 from people_names import nickname_override
+from people_names import post_nominals
 
 # name_format:
 # fml  ==> first middle last
@@ -265,237 +266,20 @@ def _reformat_stakeholder_nominal(name_str):
     return name_str.strip()
 
 def _check_post_nominal(name):
+    post_nominal_names = post_nominals.get()
     lowercase_name = name.lower()
     post_nominal = ''
-    if 'mr' == lowercase_name:
-        post_nominal = 'Mr'
-    elif 'ms' == lowercase_name:
-        post_nominal = 'Ms'
-    elif 'mrs' == lowercase_name:
-        post_nominal = 'Mrs'
-    elif 'phd' == lowercase_name:
-        post_nominal = 'PhD'
-    elif 'mba' == lowercase_name:
-        post_nominal = 'MBA'
-    elif 'mbs' == lowercase_name:
-        post_nominal = 'MBS'
-    elif 'bsc' == lowercase_name:
+    for pn in post_nominal_names:
+        if pn[0] == lowercase_name:
+            return pn[1]
+            
+    if re.match(r'^bsc\s?\(.*\)$', name, re.IGNORECASE):
         post_nominal = 'BSc'
-    elif re.match(r'^bsc\s?\(.*\)$', name, re.IGNORECASE):
-        post_nominal = 'BSc'
-    elif 'bcomm' == lowercase_name:
-        post_nominal = 'BComm'
-    elif 'bsc' == lowercase_name:
-        post_nominal = 'BSc'
-    elif 'bed' == lowercase_name:
-        post_nominal = 'BEd'
-    elif 'ceng' == lowercase_name:
-        post_nominal = 'CEng'
-    elif 'fiei' == lowercase_name:
-        post_nominal = 'FIEI'
-    elif 'msc' == lowercase_name:
-        post_nominal = 'MSc'
     elif re.match(r'^msc\s?\(.*\)$', name, re.IGNORECASE):
-        post_nominal = 'BSc'
-    elif 'be' == lowercase_name:
-        post_nominal = 'BE'
-    elif 'ba' == lowercase_name:
-        post_nominal = 'BA'
-    elif 'bs' == lowercase_name:
-        post_nominal = 'BS'
-    elif 'ma' == lowercase_name:
-        post_nominal = 'MA'
-    elif 'bm' == lowercase_name:
-        post_nominal = 'BM'
-    elif 'bcom' == lowercase_name:
-        post_nominal = 'BCom'
-    elif 'pgeo' == lowercase_name:
-        post_nominal = 'PGeo'
-    elif 'bmech' == lowercase_name:
-        post_nominal = 'BMech'
-    elif 'bch' == lowercase_name:
-        post_nominal = 'BCh'
-    elif 'peng' == lowercase_name:
-        post_nominal = 'PEng'
-    elif 'eng' == lowercase_name:
-        post_nominal = 'Eng'
-    elif 'mbbs' == lowercase_name:
-        post_nominal = 'MBBS'
-    elif 'dr' == lowercase_name:
-        post_nominal = 'Dr'
-    elif 'md' == lowercase_name:
-        post_nominal = 'MD'
-    elif 'nd' == lowercase_name:
-        post_nominal = 'ND'
-    elif 'jd' == lowercase_name:
-        post_nominal = 'JD'
-    elif 'pharmd' == lowercase_name:
-        post_nominal = 'PharmD'
-    elif 'obe' == lowercase_name:
-        post_nominal = 'OBE'
-    elif 'esq' == lowercase_name:
-        post_nominal = 'Esq'
-    elif 'esquire' == lowercase_name:
-        post_nominal = 'Esq'
-    elif 'qc' == lowercase_name:
-        post_nominal = 'QC'
-    elif 'ca' == lowercase_name:
-        post_nominal = 'CA'
-    elif 'cpa' == lowercase_name:
-        post_nominal = 'CPA'
-    elif 'cva' == lowercase_name:
-        post_nominal = 'CVA'
-    elif 'cfe' == lowercase_name:
-        post_nominal = 'CFE'
-    elif 'cfa' == lowercase_name:
-        post_nominal = 'CFA'
-    elif 'cbe' == lowercase_name:
-        post_nominal = 'CBE'
-    elif 'cga' == lowercase_name:
-        post_nominal = 'CGA'
-    elif 'gen' == lowercase_name:
-        post_nominal = 'Gen'
-    elif 'general' == lowercase_name:
-        post_nominal = 'Gen'
-    elif 'con' == lowercase_name:
-        post_nominal = 'Con'
-    elif 'colonel' == lowercase_name:
-        post_nominal = 'Con'
+        post_nominal = 'MSc'
     elif re.match(r'^Gen\s?\(Retd\)$', name, re.IGNORECASE):
         post_nominal = 'Gen'
-    elif 'retd' == lowercase_name:
-        post_nominal = 'Retd'
-    elif 'retired' == lowercase_name:
-        post_nominal = 'Retd'
-    elif 'maj' == lowercase_name:
-        post_nominal = 'Maj'
-    elif 'major' == lowercase_name:
-        post_nominal = 'Maj'
-    elif 'lt' == lowercase_name:
-        post_nominal = 'Lt'
-    elif 'lieutenant' == lowercase_name:
-        post_nominal = 'Lt'
-    elif 'col' == lowercase_name:
-        post_nominal = 'Col'
-    elif 'colonel' == lowercase_name:
-        post_nominal = 'Col'
-    elif 'adm' == lowercase_name:
-        post_nominal = 'Adm'
-    elif 'admiral' == lowercase_name:
-        post_nominal = 'Adm'
-    elif 'comdr' == lowercase_name:
-        post_nominal = 'Comdr'
-    elif 'commander' == lowercase_name:
-        post_nominal = 'Comdr'
-    elif 'usa' == lowercase_name:
-        post_nominal = 'USA'
-    elif 'usaf' == lowercase_name:
-        post_nominal = 'USAF'
-    elif 'usmc' == lowercase_name:
-        post_nominal = 'USMC'
-    elif 'usn' == lowercase_name:
-        post_nominal = 'USN'
-    elif 'us' == lowercase_name:
-        post_nominal = 'us'
-    elif 'marine' == lowercase_name:
-        post_nominal = 'USMC'
-    elif 'corps' == lowercase_name:
-        post_nominal = 'USMC'
-    elif 'sir' == lowercase_name:
-        post_nominal = 'Sir'
-    elif 'rev' == lowercase_name:
-        post_nominal = 'Rev'
-    elif 'reverend' == lowercase_name:
-        post_nominal = 'Rev'
-    elif 'prof' == lowercase_name:
-        post_nominal = 'Prof'
-    elif 'professor' == lowercase_name:
-        post_nominal = 'Prof'
-    elif 'dvm' == lowercase_name:
-        post_nominal = 'Dmv'
-    elif 'the' == lowercase_name:
-        post_nominal = 'the'
-    elif 'hon' == lowercase_name:
-        post_nominal = 'Hon'
-    elif 'honorable' == lowercase_name:
-        post_nominal = 'Hon'
-    elif 'honourable' == lowercase_name:
-        post_nominal = 'Hon'
-    elif 'judge' == lowercase_name:
-        post_nominal = 'Judge'
-    elif 'justice' == lowercase_name:
-        post_nominal = 'Justice'
-    elif 'amb' == lowercase_name:
-        post_nominal = 'Amb'
-    elif 'ambassador' == lowercase_name:
-        post_nominal = 'Amb'
-    elif 'gov' == lowercase_name:
-        post_nominal = 'Gov'
-    elif 'governor' == lowercase_name:
-        post_nominal = 'Gov'
-    elif 'sen' == lowercase_name:
-        post_nominal = 'Sen'
-    elif 'senator' == lowercase_name:
-        post_nominal = 'Sen'
-    elif 'mst' == lowercase_name:
-        post_nominal = 'MST'
-    elif 'llb' == lowercase_name:
-        post_nominal = 'LLB'
-    elif 'arct' == lowercase_name:
-        post_nominal = 'ARCT'
-    elif 'fcpa' == lowercase_name:
-        post_nominal = 'FCPA'
-    elif 'frcp' == lowercase_name:
-        post_nominal = 'FRCP'
-    elif 'fca' == lowercase_name:
-        post_nominal = 'fca'
-    elif 'mining' == lowercase_name:
-        post_nominal = 'Mining'
-    elif 'engineering' == lowercase_name:
-        post_nominal = 'Engineering'
-    elif 'fcca' == lowercase_name:
-        post_nominal = 'FCCA'
-    elif 'frcp' == lowercase_name:
-        post_nominal = 'FRCP'
-    elif 'dps' == lowercase_name:
-        post_nominal = 'DPS'
-    elif 'mbchb' == lowercase_name:
-        post_nominal = 'MBChB'
-    elif 'facp' == lowercase_name:
-        post_nominal = 'FACP'
-    elif 'facc' == lowercase_name:
-        post_nominal = 'FACC'
-    elif 'fscai' == lowercase_name:
-        post_nominal = 'FSCAI'
-    elif 'adv' == lowercase_name:
-        post_nominal = 'Adv'
-    elif 'advocate' == lowercase_name:
-        post_nominal = 'Adv'
-    elif 'lld' == lowercase_name:
-        post_nominal = 'LLD'
-    elif 'llm' == lowercase_name:
-        post_nominal = 'LLM'
-    elif 'shri' == lowercase_name:
-        post_nominal = 'Shri'
-    elif 'mph' == lowercase_name:
-        post_nominal = 'MPH'
-    elif 'facs' == lowercase_name:
-        post_nominal = 'FACS'
-    elif 'licoechsg' == lowercase_name:
-        post_nominal = 'LIC.OEC.HSG'
-    elif 'oec' == lowercase_name:
-        post_nominal = 'OEC'
-    elif 'hsg' == lowercase_name:
-        post_nominal = 'HSG'
-    elif 'mrcp' == lowercase_name:
-        post_nominal = 'MRCP'
-    elif 'icdd' == lowercase_name:
-        post_nominal = 'ICDD'
-    elif 'chrp' == lowercase_name:
-        post_nominal = 'CHRP'
-    elif 'cma' == lowercase_name:
-        post_nominal = 'CMA'
-
+    
     return post_nominal
 
 def get_suffix_name(names):
