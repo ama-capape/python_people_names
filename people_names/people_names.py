@@ -4,6 +4,7 @@ import unidecode
 from functools import reduce
 from slugify import Slugify
 from people_names import stakeholder_positions
+from people_names import nickname_override
 
 # name_format:
 # fml  ==> first middle last
@@ -242,25 +243,16 @@ def _check_and_remove_nominal(names):
 def _determine_set_name(name_type, name, name_new):
     if name_type == 'nickname':
         name_new = _check_nickname_override(name_new)
-
     if name == '':
         return name_new
     else:
         return name
 
 def _check_nickname_override(nickname):
-    nickname_lowercase = nickname.lower()
-    if 'retd' == nickname_lowercase:
-        nickname = ''
-    elif 'retired' == nickname_lowercase:
-        nickname = ''
-    elif 'illinois' == nickname_lowercase:
-        nickname = ''
-    elif 'uk' == nickname_lowercase:
-        nickname = ''
-    elif 'president du conseil' == nickname_lowercase:
-        nickname = ''
-
+    nicknames = nickname_override.get()
+    for nick in nicknames:
+        if nickname.lower() == nick:
+            return ''
     return nickname
 
 def _strip_stakeholder_positions(name_str):
