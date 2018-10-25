@@ -1,7 +1,10 @@
 # coding: utf-8
 import re
 import unidecode
+from functools import reduce
 from slugify import Slugify
+from people_names import stakeholder_positions
+
 # name_format:
 # fml  ==> first middle last
 # lfm  ==> last first middle
@@ -261,19 +264,8 @@ def _check_nickname_override(nickname):
     return nickname
 
 def _strip_stakeholder_positions(name_str):
-    name_str = name_str.replace("Vice Chairman and Chairman of Goldman Sachs Asia Pacific", "")
-    name_str = name_str.replace("Executive Vice President and Chief Financial Officer", "")
-    name_str = name_str.replace("Executive Vice President, General Counsel and Secretary of the Corporation", "")
-    name_str = name_str.replace("Executive Vice President and Head of Global Compliance", "")
-    name_str = name_str.replace("Executive Vice President, Chief of Staff and Secretary to the Board", "")
-    name_str = name_str.replace("Executive Vice President and Global Head of Human Capital Management", "")
-    name_str = name_str.replace("President and Chief Operating Officer", "")
-    name_str = name_str.replace("Chairman and Chief Executive Officer", "")
-    name_str = name_str.replace("President and COO", "")
-    name_str = name_str.replace("Lead Director", "")
-    name_str = name_str.replace("Vice Chairman", "")
-
-    return name_str.strip()
+    positions = stakeholder_positions.get()
+    return reduce(lambda a, pos: a.replace(pos, ''), positions, name_str)
 
 def _reformat_stakeholder_nominal(name_str):
     name_str = name_str.replace("P. Eng.", "P.Eng.")
